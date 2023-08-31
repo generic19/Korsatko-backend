@@ -246,22 +246,9 @@
 	</div>
 	<!-- ./wrapper -->
 
-@* 	<!-- jQuery -->
-	<script src="~/plugins/jquery/jquery.min.js"></script>
-	<!-- Bootstrap 4 -->
-	<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- overlayScrollbars -->
-	<script src="~/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-	<!-- AdminLTE App -->
-	<script src="~/plugins/adminlte/js/adminlte.min.js"></script>
-	<!-- ionicons -->
-	<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-	<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-	 *@
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
 	@await Component.InvokeAsync("NToastNotify")
 
-	</script>
 </body>
 </html>
