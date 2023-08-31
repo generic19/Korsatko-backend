@@ -1,22 +1,22 @@
 ﻿using System.Diagnostics;
+using KorsatkoApp.Data;
 using KorsatkoApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KorsatkoApp.Controllers {
     public class HomeController : Controller {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger) {
-            _logger = logger;
+		private readonly ApplicationDbContext _context;
+
+        public HomeController(ApplicationDbContext context) {
+            _context = context;
         }
 
         public IActionResult Index() {
-            return View();
+            List<Course> courses=_context.Courses.ToList();
+            return View(courses);
         }
 
-        public IActionResult Privacy() {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() {

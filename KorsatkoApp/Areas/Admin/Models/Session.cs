@@ -16,8 +16,8 @@ namespace KorsatkoApp.Models {
         public int InstructorId { get; set; } 
         public DateTime AddedOn { get; set; } = DateTime.Now;
         public List<Enrolment> Enrolments { get; set; } = new(); //Reference Navigation property
-        public Course course { get; set; } = null!;//Reference Navigation property
-        public Instructor instructor { set; get; } = null!; //Reference Navigation property
+        public Course? course { get; set; } = null!;//Reference Navigation property
+        public Instructor? instructor { set; get; } = null!; //Reference Navigation property
 
 
     }

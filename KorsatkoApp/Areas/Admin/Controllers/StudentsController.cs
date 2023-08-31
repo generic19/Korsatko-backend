@@ -28,6 +28,7 @@ namespace KorsatkoApp.Areas.Admin.Controllers
                           Problem("Entity set 'ApplicationDbContext.Students'  is null.");
         }
 
+
         // GET: Admin/Students/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -51,6 +52,7 @@ namespace KorsatkoApp.Areas.Admin.Controllers
         {
             return View();
         }
+
 
         // POST: Admin/Students/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -139,7 +141,6 @@ namespace KorsatkoApp.Areas.Admin.Controllers
 
         // POST: Admin/Students/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Students == null)
