@@ -50,8 +50,8 @@ namespace KorsatkoApp.Areas.Admin.Controllers
         // GET: Admin/Enrolments/Create
         public IActionResult Create()
         {
-            ViewData["SessionId"] = new SelectList(_context.Sessions, "Id", "Id");
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Email");
+            ViewData["Sessions"] = new SelectList(_context.Sessions, "Id", "Id");
+            ViewData["Students"] = new SelectList(_context.Students, "Id", "Email");
             return View();
         }
 

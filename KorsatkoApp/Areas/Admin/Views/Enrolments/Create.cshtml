@@ -4,39 +4,89 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
 
-<h4>Enrolment</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="StudentId" class="control-label"></label>
-                <select asp-for="StudentId" class ="form-control" asp-items="ViewBag.StudentId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="SessionId" class="control-label"></label>
-                <select asp-for="SessionId" class ="form-control" asp-items="ViewBag.SessionId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="PaymentStatus" class="control-label"></label>
-                <input asp-for="PaymentStatus" class="form-control" />
-                <span asp-validation-for="PaymentStatus" class="text-danger"></span>
-            </div>
+@section Styles {
+    <link rel="stylesheet" href="~/areas/adimin/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/areas/adimin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="~/areas/adimin/plugins/jquery-ui/jquery-ui.min.css">
+}
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/areas/adimin/plugins/select2/js/select2.full.min.js"></script>
+    <script src="~/areas/adimin/plugins/select2/js/i18n/ar.js"></script>
+
+    <script>
+        $("document").ready(() => {
+            $("#@nameof(Model.StudentId), #@nameof(Model.SessionId)").select2({
+                dir: "rtl",
+                width: "100%",
+                theme: "bootstrap4",
+                containerCssClass: "arabic",
+                dropdownCssClass: "arabic",
+            });
+        });
+    </script>
 }
+
+<section class="container content-header mb-2">
+    <div class="px-3 px-sm-2 px-lg-3">
+        <div class="row mt-3 mb-1">
+            <h1 class="arabic">التسجيل في كورس</h1>
+        </div>
+
+        <div class="row">
+            <ol class="breadcrumb arabic sm">
+                <li class="breadcrumb-item">
+                    <a href="#">الصفحة الرئيسية</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="#">الطلاب</a>
+                </li>
+                <li class="breadcrumb-item">
+                    التسجيل في كورس
+                </li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+
+<section class="content pb-5">
+    <div class="container">
+        <form method="post" action="#" class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-6 form-group">
+                        <label asp-for="StudentId">
+                            <span class="arabic">الطالب</span>
+                        </label>
+
+                        <select asp-for="StudentId" asp-items="ViewBag.Students" class="form-control arabic">
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12 form-group">
+                        <label for="session">
+                            <span class="arabic">المعاد</span>
+                        </label>
+
+                        <select asp-for="SessionId" asp-items="ViewBag.Sessions" size="3" class="form-control arabic">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <div class="">
+                    <input type="submit" value="إضافة" class="btn btn-primary px-3 arabic">
+                    <a href="#" class="btn btn-outline-danger px-3 arabic">إلغاء</a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</section>

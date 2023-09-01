@@ -43,8 +43,8 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
 
 		// GET: Admin/Sessions/Create
 		public IActionResult Create() {
-			ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Name");
-			ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "Email");
+			ViewData["Courses"] = new SelectList(_context.Courses, "Id", "Name");
+			ViewData["Instructors"] = new SelectList(_context.Instructors, "Id", "FullName");
 			return View();
 		}
 

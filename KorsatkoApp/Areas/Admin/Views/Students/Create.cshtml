@@ -2,73 +2,207 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Areas/Admin/Views/_AdminLayout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>Student</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserPassword" class="control-label"></label>
-                <input asp-for="UserPassword" class="form-control" />
-                <span asp-validation-for="UserPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BirthOfDate" class="control-label"></label>
-                <input asp-for="BirthOfDate" class="form-control" />
-                <span asp-validation-for="BirthOfDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" />
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NationalId" class="control-label"></label>
-                <input asp-for="NationalId" class="form-control" />
-                <span asp-validation-for="NationalId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AddedOn" class="control-label"></label>
-                <input asp-for="AddedOn" class="form-control" />
-                <span asp-validation-for="AddedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="/plugins/inputmask/jquery.inputmask.min.js"></script>
+    <script src="/plugins/inputmask/bindings/inputmask.binding.js"></script>
+
+
+    <script>
+        $("document").ready(() => {
+            $("#dateOfBirth").inputmask({
+                mask: "9999-99-99",
+                placeholder: "_",
+                inputmode: "numeric"
+            });
+        });
+    </script>
 }
+
+
+<!-- Content Header (Page header) -->
+<section class="container content-header mb-2">
+    <div class="px-3 px-sm-2 px-lg-3">
+        <div class="row mt-3 mb-1">
+            <h1 class="arabic">إضافة طالب</h1>
+        </div>
+
+        <div class="row">
+            <ol class="breadcrumb arabic sm">
+                <li class="breadcrumb-item">
+                    <a href="#">الصفحة الرئيسية</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="#">الطلاب</a>
+                </li>
+                <li class="breadcrumb-item">
+                    طالب جديد
+                </li>
+            </ol>
+        </div>
+    </div>
+
+</section>
+
+<!-- Main content -->
+<section class="content pb-5">
+    <div class="container">
+        <form method="post" action="#" class="card" autocomplete="off">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-6 form-group">
+                        <label asp-for="FullName">
+                            <span class="arabic">الاسم بالكامل</span>
+                        </label>
+                        <input type="text" asp-for="FullName" class="form-control arabic"
+                               placeholder="عمرو عثمان الشرقاوي">
+
+                        <div class="form-text text-danger">
+                            <span asp-validation-for="FullName"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 form-group">
+                        <label for="nationalId">
+                            <span class="arabic">الرقم القومي</span>
+                        </label>
+                        <input type="text" asp-for="NationalId" class="form-control arabic"
+                               placeholder="30102034567890">
+
+                        <div class="form-text text-danger">
+                            <span asp-validation-for="NationalId"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 form-group">
+                        <label for="dateOfBirth">
+                            <span class="arabic">تاريخ الميلاد</span>
+                        </label>
+
+                        <input type="text" class="form-control ltr text-right arabic" asp-for="BirthOfDate" placeholder="YYYY-MM-DD">
+
+                        <div class="form-text text-danger">
+                            <span asp-validation-for="BirthOfDate"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 form-group">
+                        <label asp-for="Gender">
+                            <span class="arabic">الجنس</span>
+                        </label>
+
+                        <div class="d-block btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-choice">
+                                <input type="radio" name="@nameof(Model.Gender)" id="@nameof(Model.Gender)_M" value="M">
+                                <span class="arabic font-weight-normal">ذكر</span>
+                            </label>
+                            <label class="btn btn-choice">
+                                <input type="radio" name="@nameof(Model.Gender)" id="@nameof(Model.Gender)_F" value="F">
+                                <span class="arabic font-weight-normal">أنثى</span>
+                            </label>
+                        </div>
+
+                        <div class="form-text text-danger">
+                            <span asp-validation-for="Gender"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 col-md-6 form-group">
+                        <label asp-for="Email">
+                            <span class="arabic">البريد الالكتروني</span>
+                        </label>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </div>
+
+                            <input type="text" asp-for="Email" class="form-control"
+                                   placeholder="amr.othman@example.com">
+                        </div>
+
+                        <div class="form-text text-danger">
+                            <span asp-validation-for="Email"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 form-group">
+                        <label asp-for="PhoneNumber">
+                            <span class="arabic">رقم الهاتف</span>
+                        </label>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-phone"></i>
+                                </span>
+                            </div>
+
+                            <input type="text" asp-for="PhoneNumber"
+                                   class="form-control arabic" placeholder="01012312345">
+
+                            <div class="form-text text-danger">
+                                <span asp-validation-for="PhoneNumber"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 form-group">
+                        <label asp-for="UserName">
+                            <span class="arabic">اسم المستخدم</span>
+                        </label>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                            </div>
+
+                            <input type="text" asp-for="UserName" class="form-control"
+                                   placeholder="username">
+                        </div>
+
+                        <div class="form-text text-danger">
+                            <span asp-validation-for="UserName"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 form-group">
+                        <label asp-for="UserPassword">
+                            <span class="arabic">كلمة المرور</span>
+                        </label>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-key"></i>
+                                </span>
+                            </div>
+
+                            <input type="password" asp-for="UserPassword"
+                                   class="form-control arabic">
+
+                            <div class="form-text text-danger">
+                                <span asp-validation-for="UserPassword"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <div class="">
+                    <input type="submit" value="إضافة" class="btn btn-primary px-3 arabic">
+                    <a href="#" class="btn btn-outline-danger px-3 arabic">إلغاء</a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</section>
