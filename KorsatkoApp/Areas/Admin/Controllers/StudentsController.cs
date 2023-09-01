@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KorsatkoApp.Data;
 using KorsatkoApp.Models;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace KorsatkoApp.Areas.Admin.Controllers
 {
@@ -20,8 +21,8 @@ namespace KorsatkoApp.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Students
-        public async Task<IActionResult> Index()
+		// GET: Admin/Students
+		public async Task<IActionResult> Index()
         {
               return _context.Students != null ? 
                           View(await _context.Students.ToListAsync()) :
