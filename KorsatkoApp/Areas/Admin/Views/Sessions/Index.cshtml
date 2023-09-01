@@ -4,122 +4,110 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.startTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Limit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsAvailable)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PriceRate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AddedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.course)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.instructor)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.startTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Limit)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsAvailable)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PriceRate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AddedOn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.course.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.instructor.Email)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a href="javascript:;" class="link js-delete" data-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<!-- Content Header (Page header) -->
+<section class="container content-header mb-2">
+    <div class="px-3 px-sm-2 px-lg-3">
+        <div class="row mt-3 mb-1">
+            <h1 class="arabic">المواعيد</h1>
+        </div>
 
-@section Scripts{
-    <!-- jQuery -->
-    <script src="~/plugins/jquery/jquery.min.js"></script>
+        <div class="row">
+            <ol class="breadcrumb arabic sm">
+                <li class="breadcrumb-item">
+                    <a asp-controller="Home">الصفحة الرئيسية</a>
+                </li>
+                <li class="breadcrumb-item">
+                    المواعيد
+                </li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content pb-5">
+    <div class="container">
+        <div class="card">
+            <div class="card-body arabic">
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-8" id="tableButtons">
+                        <a class="btn btn-primary" asp-action="Create">اضافة</a>
+                    </div>
+
+                    <div class="col-12 col-sm-4">
+                        <input type="text" id="search" class="form-control d-inline w-100 w-sm-auto float-left"
+                               placeholder="بحث">
+                    </div>
+                </div>
+
+                <table id="datatable" class="table table-hover">
+                    <thead class="thead-light"></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Styles {
+    <link rel="stylesheet" href="~/areas/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/areas/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/areas/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+}
+
+@section Scripts {
+    <script src="~/areas/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/areas/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/areas/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/areas/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/areas/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/areas/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/areas/admin/plugins/jszip/jszip.min.js"></script>
+    <script src="~/areas/admin/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/areas/admin/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/areas/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/areas/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/areas/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script src="~/areas/admin/js/populate-datatable.js"></script>
+
+
     <script>
+        const columnNames = [
+            "الكورس",
+            "المدرب",
+            "فترة الانعقاد",
+            "وقت الانعقاد",
+            "المكان",
+            "الحد الأقصى",
+            "السعر",
+            "متوفر",
+        ];
 
-        $(document).ready(function () {
-            $('.js-delete').on('click', function () {
-                var link = $(this);
+        const entries = [
+        @foreach (var item in Model)
+        {
+            @:{
+            @:values: [
+            @:"@item.course.Name",
+            @:"@item.instructor.FullName",
+            @:"من @item.StartDate.Year-@item.StartDate.Month-@item.StartDate.Day<br>إلى @item.EndDate.Year-@item.EndDate.Month-@item.EndDate.Day",
+            @:"من @item.startTime.ToShortTimeString()<br>إلى @item.EndTime.ToShortTimeString()",
+            @:"@item.Location",
+            @:"@item.Limit",
+            @:"@item.PriceRate",
+            @:"@(item.IsAvailable ? "متوفر" : "غير متوفر")",
+            @:],
+            @:actions: {
+            @:details: "@Url.Action("Details", new { id = item.Id })",
+            @:edit: "@Url.Action("Edit", new { id = item.Id })",
+            @:delete: "@Url.Action("Delete", new { id = item.Id })",
+            @:}
+            @:},
+        }
+                        ];
 
-                var result = confirm('هل انت متأكد من حذف الميعاد ؟');
-
-                if (result) {
-                    $.ajax({
-                        url: '@Url.Action("Delete", "Sessions", new { area = "Admin" })' + '/' + link.data('id'),
-                        method: 'POST',
-                        success: function () {
-                            link.closest('.session').fadeOut();
-                            alert('تم حذف الميعاد');
-                            location.reload();
-                        },
-                        error: function () {
-                            alert('حدث خطأ ما');
-                        }
-                    });
-                }
-            });
-        });
+        populateDataTable(columnNames, entries);
     </script>
 }
