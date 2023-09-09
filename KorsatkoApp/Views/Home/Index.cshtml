@@ -1,8 +1,11 @@
-﻿@model List<Course>
-@using Microsoft.AspNetCore.Identity
+﻿@using KorsatkoApp.ViewModels;
+@using Microsoft.AspNetCore.Identity;
 
 @inject SignInManager<Student> SignInManager
 @inject UserManager<Student> UserManager
+
+@model HomeViewModel
+
 
 <div class="content-wrapper">
 	<div class="fading-bg">
@@ -46,21 +49,21 @@
 
 	<div class="fading-bg">
 		<div class="container py-5">
+			
 			<div class="mt-5 mb-4">
-				<h4>المسارات التدريبية</h4>
+				<h4>اجدد الكورسات</h4>
 			</div>
 
 			<div class="cards-container mb-5">
 
-				@foreach (var c in Model) {
+				@foreach (var c in Model.courses) {
 					@* Card1 *@
-					<a href="#" class="card card-fixed scale-on-hover">
+					<a asp-action="CourseDetails" asp-route-id="@c.Id" class="card card-fixed scale-on-hover">
 						<div class="card-image">
 							@if (c.Picture == "" || c.Picture == null) {
 								<img src="~/img/tracks/backend.svg" alt="Frontend">
-							}
-							else{
-							<img src="~/img/tracks/@c.Picture" alt="Frontend">
+							} else {
+								<img src="~/Uploads/@c.Picture" alt="Frontend">
 							}
 						</div>
 
@@ -73,57 +76,45 @@
 					@* Card1 *@
 				}
 
-				<a href="#" class="card card-fixed scale-on-hover">
-					<div class="card-image">
-						<img src="~/img/tracks/frontend.svg" alt="Frontend">
-					</div>
-
-					<div class="card-body">
-						<div class="card-title">
-							تطوير ويب Front-End
-						</div>
-					</div>
-				</a>
-				<a href="#" class="card card-fixed scale-on-hover">
-					<div class="card-image">
-						<img src="~/img/tracks/backend.svg" alt="Frontend" class="p-3">
-					</div>
-
-					<div class="card-body">
-						<div class="card-title">
-							تطوير ويب Backend
-						</div>
-					</div>
-				</a>
-
-				<a href="#" class="card card-fixed scale-on-hover">
-					<div class="card-image">
-						<img src="~/img/tracks/mobile.svg" alt="Frontend" class="p-3">
-					</div>
-
-					<div class="card-body">
-						<div class="card-title">
-							تطوير تطبيقات المحمول
-						</div>
-					</div>
-				</a>
-
-				<a href="#" class="card card-fixed scale-on-hover">
-					<div class="card-image">
-						<img src="~/img/tracks/ai.svg" alt="Frontend" class="p-3">
-					</div>
-
-					<div class="card-body">
-						<div class="card-title">
-							تطوير الذكاء الاصطناعي
-						</div>
-					</div>
-				</a>
 			</div>
 
 
+
 			<div class="mt-5 mb-4">
-				<h4>أحدث الكورسات</h4>
+				<h4>افضل المدربين </h4>
+			</div>
+
+			<div class="cards-container  mb-5">
+
+				@foreach (var c in Model.instructors) {
+					@* Card1 *@
+					<a asp-action="InstructorDetails" asp-route-id="@c.Id" class="card card-fixed scale-on-hover">
+						<div class="card-image">
+							@if (c.Gender == 'm' || c.Gender == null) {
+								<img src="~/img/male.jpg" alt="Male">
+							} else {
+								<img src="~/img/female.jpg" alt="Female">
+							}
+						</div>
+
+						<div class="card-body">
+							<div class="card-title">
+								@c.FullName
+							</div>
+						</div>
+					</a>
+					@* Card1 *@
+				}
+
+			
+			</div>
+
+
+
+
+
+			<div class="mt-5 mb-4">
+				<h4>أحدث التقنيات</h4>
 			</div>
 
 			<div class="cards-container small mb-5">

@@ -1,38 +1,121 @@
 ﻿@model IEnumerable<Enrollment>
 
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.student)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.session)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.PaymentStatus)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.AddedOn)
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model) {
+<section class="content pb-5 mt-5 mb-5">
+	<div class="container">
+		<div class="card">
+			<div class="card-body arabic">
+				<div class="row">
+					<div class="col-12 col-sm-8" id="tableButtons">
+
+					</div>
+
+					<div class="col-12 col-sm-4">
+						<input type="text" id="search" class="form-control d-inline w-100 w-sm-auto float-left"
+							   placeholder="بحث">
+					</div>
+				</div>
+
+				<table id="datatable" class="table table-hover">
+					<thead class="thead-light">
+						<tr>
+							<th>الميعاد</th>
+							<th>حالة الدفع</th>
+							<th>التفاصيل</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model) {
+
+							<tr>
+							@* 	<td>
+									@Html.DisplayFor(modelItem => item.student.FullName)
+								</td> *@
+								<td>
+									@item.session.course.Name - @item.session.instructor.FullName - @item.session.Location
+								</td>
+								<td>
+									@Html.DisplayFor(modelItem => item.PaymentStatus)
+								</td>
+								<td class="text-nowrap">
+									<a asp-action="Details" asp-route-id="@item.EnrollmentNumber" class="btn icon-btn-sm btn-outline-primary m-1">
+										<i class="fas fa-info"></i>
+									</a>
+
+								@* 	<a asp-action="Delete" asp-route-id="@item.EnrollmentNumber" class="btn icon-btn-sm btn-outline-danger m-1">
+										<i class="fas fa-trash"></i>
+									</a> *@
+								</td>
+							</tr>
+						}
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</section>
+
+@section Scripts{
+	<!-- jQuery -->
+	<script src="~/plugins/jquery/jquery.min.js"></script>
+	<!-- Bootstrap 4 -->
+	<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<!-- overlayScrollbars -->
+	<script src="~/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="~/plugins/adminlte/js/adminlte.min.js"></script>
+	<!-- DataTables -->
+	<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+	<script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+	<script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+	<script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+	<script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+	<script src="~/plugins/jszip/jszip.min.js"></script>
+	<script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+	<script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+	<script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+	<script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+	<script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+}
+@* 
+<div class="container">
+	<table class="table">
+		<thead>
 			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.student.FullName)
-				</td>
-				<td>
-					@item.session.course.Name - @item.session.instructor.FullName - @item.session.Location
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.PaymentStatus)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.AddedOn)
-				</td>
+				<th>
+					@Html.DisplayNameFor(model => model.student)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.session)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.PaymentStatus)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.AddedOn)
+				</th>
 			</tr>
-		}
-	</tbody>
+		</thead>
+		<tbody>
+			@foreach (var item in Model) {
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.student.FullName)
+					</td>
+					<td>
+						@item.session.course.Name - @item.session.instructor.FullName - @item.session.Location
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.PaymentStatus)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.AddedOn)
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div> *@
