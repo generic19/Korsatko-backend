@@ -1,0 +1,69 @@
+﻿@model Enrollment
+
+@{
+    ViewData["Title"] = "إضافة إشتراك";
+}
+
+<section class="container content-header mb-2">
+    <div class="px-3 px-sm-2 px-lg-3">
+        <div class="row mt-3 mb-1">
+            <h1 class="arabic">إضافة إشتراك</h1>
+        </div>
+
+        <div class="row">
+            <ol class="breadcrumb arabic sm">
+                <li class="breadcrumb-item">
+                    <a asp-area="Admin" asp-controller="home" asp-action="Index">الصفحة الرئيسية</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a asp-area="Admin" asp-controller="enrollments" asp-action="Index">الإشتراكات</a>
+                </li>
+                <li class="breadcrumb-item">
+                    إشتراك جديد
+                </li>
+            </ol>
+        </div>
+    </div>
+</section>
+
+<section class="content pb-5">
+	<div class="container">
+		<form method="post" asp-action="Create" class="card">
+			<div class="card-body">
+				<div class="row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <div class="col-12 col-md-6  form-group">
+                        <label asp-for="StudentId" class="control-label"></label>
+                        <select asp-for="StudentId" class="form-control" asp-items="ViewBag.StudentId"></select>
+                    </div>
+
+                    <div class="col-12 col-md-6 form-group">
+                        <label asp-for="SessionId" class="control-label"></label>
+                        <select asp-for="SessionId" class="form-control" asp-items="ViewBag.SessionId"></select>
+                    </div>
+
+                    <div class="col-12 col-md-6 form-group">
+                        <label asp-for="PaymentStatus" class="control-label"></label>
+                        <input asp-for="PaymentStatus" class="form-control" />
+                        <span asp-validation-for="PaymentStatus" class="text-danger"></span>
+                    </div>
+				
+				</div>
+			</div>
+            
+			<div class="card-footer">
+				<div class="">
+					<input type="submit" value="إضافة" class="btn btn-primary px-3 arabic">
+					<a asp-action="Index" class="btn btn-outline-danger px-3 arabic">إلغاء</a>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

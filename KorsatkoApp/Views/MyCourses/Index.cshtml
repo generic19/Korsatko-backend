@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Enrollment>
+
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.student)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.session)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PaymentStatus)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.AddedOn)
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model) {
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.student.FullName)
+				</td>
+				<td>
+					@item.session.course.Name - @item.session.instructor.FullName - @item.session.Location
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PaymentStatus)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.AddedOn)
+				</td>
+			</tr>
+		}
+	</tbody>

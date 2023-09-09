@@ -18,25 +18,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using KorsatkoApp.Areas.Admin.Models;
+using System.ComponentModel;
 
-namespace KorsatkoApp.Areas.Identity.Pages.Account
-{
-    public class RegisterModel : PageModel
-    {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
-        private readonly IUserEmailStore<IdentityUser> _emailStore;
+namespace KorsatkoApp.Areas.Identity.Pages.Account {
+    public class RegisterModel : PageModel {
+        private readonly SignInManager<Student> _signInManager;
+        private readonly UserManager<Student> _userManager;
+        private readonly IUserStore<Student> _userStore;
+        private readonly IUserEmailStore<Student> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<Student> userManager,
+            IUserStore<Student> userStore,
+            SignInManager<Student> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
-        {
+            IEmailSender emailSender) {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
@@ -64,62 +63,83 @@ namespace KorsatkoApp.Areas.Identity.Pages.Account
         /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public class InputModel
-        {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
+        public class InputModel {
+            [DisplayName("الاسم بالكامل")]
+            [Required(ErrorMessage = "يجب ادخال اسم بالكامل")]
+            public string FullName { get; set; }
+
+
+            [DisplayName("اسم المستخدم")]
+            [Required(ErrorMessage = "يجب ادخال اسم المستخدم")]
+            public string UserName { get; set; }
+            
+            
+            [DisplayName("الجنس")]
+            [Required(ErrorMessage = "يجب تحديد الجنس")]
+            public char Gender { get; set; }
+
+			[Display(Name = "رقم الهاتف")]
+			public string PhoneNumber { get; set; }
+
+
+			[Display(Name = "تاريخ الميلاد")]
+            [DataType(DataType.Date)]
+            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+            [Required(ErrorMessage = "يجب ادخال تاريخ الميلاد")]
+            public DateTime DateOfBirth { get; set; }
+            
+            
+            [DisplayName("الرقم القومي")]
+            [Required(ErrorMessage ="يجب ادخال الرقم القومي"),StringLength(14)]
+            public string NationalId { get; set; }
+
+            
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Required(ErrorMessage = "يجب ادخال البريد الإلكتروني")]
+            [Display(Name = "البريد الإلكتروني")]
             public string Email { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "كلمة السر")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "تأكيد كلمة السر")]
+            [Compare("Password", ErrorMessage = "كلمة السر المدخلة لا تطابق كلمة السر المدخلة سابقا ")]
             public string ConfirmPassword { get; set; }
+            
+            [Display(Name = "تاريخ الإضافة")]
+            public DateTime AddedOn { get; set; } = DateTime.Now;
+
         }
 
 
-        public async Task OnGetAsync(string returnUrl = null)
-        {
+        public async Task OnGetAsync(string returnUrl = null) {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-        {
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null) {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
                 var user = CreateUser();
-
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                user.UserName = Input.UserName;
+                user.FullName = Input.FullName;
+                user.Gender = Input.Gender;
+                user.DateOfBirth = Input.DateOfBirth;
+                user.PhoneNumber = Input.PhoneNumber;
+                user.NationalId = Input.NationalId;
+                user.AddedOn = DateTime.Now;
+                await _userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
-                if (result.Succeeded)
-                {
+                if (result.Succeeded) {
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -134,18 +154,14 @@ namespace KorsatkoApp.Areas.Identity.Pages.Account
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount) {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
+                    } else {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }
-                foreach (var error in result.Errors)
-                {
+                foreach (var error in result.Errors) {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
@@ -154,27 +170,21 @@ namespace KorsatkoApp.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
-        {
-            try
-            {
-                return Activator.CreateInstance<IdentityUser>();
-            }
-            catch
-            {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+        private Student CreateUser() {
+            try {
+                return Activator.CreateInstance<Student>();
+            } catch {
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Student)}'. " +
+                    $"Ensure that '{nameof(Student)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
-        {
-            if (!_userManager.SupportsUserEmail)
-            {
+        private IUserEmailStore<Student> GetEmailStore() {
+            if (!_userManager.SupportsUserEmail) {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)_userStore;
+            return (IUserEmailStore<Student>)_userStore;
         }
     }
 }

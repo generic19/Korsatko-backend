@@ -1,9 +1,9 @@
-﻿@model KorsatkoApp.Models.Course
+﻿@model CourseViewModel
 
 @{
-	ViewData["Title"] = "Create";
+	ViewData["Title"] = "تعديل كورس";
 }
-@* Header *@
+
 <section class="container content-header mb-2">
 	<div class="px-3 px-sm-2 px-lg-3">
 		<div class="row mt-3 mb-1">
@@ -19,7 +19,7 @@
 					<a asp-area="Admin" asp-controller="courses" asp-action="Index">الكورسات</a>
 				</li>
 				<li class="breadcrumb-item">
-					تعديل كورس
+					تعديل كورس 
 				</li>
 			</ol>
 		</div>
@@ -29,7 +29,7 @@
 
 <section class="content pb-5">
 	<div class="container">
-		<form asp-action="Edit" class="card" method="post">
+		<form asp-action="Edit" enctype="multipart/form-data" class="card" method="post">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<div class="card-body">
 				<div class="row">
@@ -49,7 +49,7 @@
 
 						<textarea asp-for="Description" id="courseContent" class="form-control arabic"></textarea>
 					</div>
-					@* input field *@
+
 					<div class="col-12 form-group">
 						<label asp-for="Prerequisites">
 							<span class="arabic">متطلبات الكورس</span>
@@ -57,20 +57,18 @@
 						<span asp-validation-for="Prerequisites" class="text-danger"></span>
 						<input asp-for="Prerequisites" type="text" id="courseName" class="form-control arabic">
 					</div>
-					@* input field *@
-					<div class="col-12 col-md-6 form-group">
-						<label asp-for="Picture">
-							<span class="arabic">الصورة المصغرة للكورس</span>
-						</label>
-						<span asp-validation-for="Picture" class="text-danger"></span>
 
-						<div class="input-group">
-							<input asp-for="Picture" type="text" id="coursePicture"
-								   class="form-control arabic">
-
-
+					<div class="col-md-6">
+						<div class="form-group">
+							<label asp-for="CoursePicture" class="control-label"></label>
+							<div class="custom-file">
+								<input asp-for="CoursePicture" class="custom-file-input" />
+								<label class="custom-file-label" for="customFile">@Model.ExistingImage</label>
+							</div>
+							<span asp-validation-for="CoursePicture" class="text-danger"></span>
 						</div>
 					</div>
+
 
 					<div class="col-12 col-md-6 form-group">
 						<label asp-for="Price">
@@ -94,10 +92,11 @@
 
 			<div class="card-footer">
 				<div class="">
-					<input type="submit" value="إضافة" class="btn btn-primary px-3 arabic">
+					<input type="submit" value="تعديل" class="btn btn-primary px-3 arabic">
 					<a asp-action="Index" class="btn btn-outline-danger px-3 arabic">إلغاء</a>
 				</div>
 			</div>
+
 		</form>
 
 	</div>
@@ -116,7 +115,15 @@
 	<script src="~/plugins/summernote/summernote-bs4.min.js"></script>
 	<script src="~/plugins/summernote/lang/summernote-ar-AR.min.js"></script>
 
+
 	<script>
+
+		$(".custom-file-input").on("change", function () {
+			var fileName = $(this).val().split("\\").pop();
+			$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+		});
+
+
 		$(document).ready(function () {
 			$('#courseContent').summernote({
 				lang: "ar-AR",
@@ -134,4 +141,3 @@
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
 }
-

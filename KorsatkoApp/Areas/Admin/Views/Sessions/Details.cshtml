@@ -1,15 +1,32 @@
-﻿@model KorsatkoApp.Models.Session
+﻿@model Session
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h2 class="m-2">تفاصيل الميعاد</h2>
+
 
 <div>
-    <h4>Session</h4>
-    <hr />
+
+    <div class="m-3 d-none d-sm-block">
+        <img src="~/Uploads/@Model.course.Picture" width="250px">
+    </div>
+
     <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.course)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.course.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.instructor)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.instructor.FullName)
+        </dd>
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.StartDate)
         </dt>
@@ -64,18 +81,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.AddedOn)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.course)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.course.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.instructor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.instructor.FullName)
-        </dd>
+
     </dl>
 </div>
 <div>
@@ -83,8 +89,10 @@
     <a asp-action="Index">Back to List</a>
 </div>
 <h1 class="arabic">الطلاب</h1>
+
+
 <!-- Main content -->
-<section class="content pb-5">
+ <section class="content pb-5">
     <div class="container">
         <div class="card">
             <div class="card-body arabic">
@@ -109,16 +117,20 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach(var e in Model.Enrolments) {
+                     <tbody>
+                        @foreach (var item in Model.Enrollments) {
 
                         <tr>
-                            <td>@e.student.FullName</td>
-                            <td>@e.student.NationalId</td>
-                            <td>@e.student.BirthOfDate</td>
-                            <td>@e.student.Gender</td>
-                            <td>@e.student.Email</td>
-                            <td>@e.student.PhoneNumber</td>
+                                <td>@item.student.FullName</td>
+                                <td>@item.student.NationalId</td>
+                                <td>@item.student.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                                @if (item.student.Gender == 'f') {
+                                    <td>انثى</td>
+                                } else {
+                                    <td>ذكر</td>
+                                }
+                                <td>@item.student.Email</td>
+                                <td>@item.student.PhoneNumber</td>
                             <td class="text-nowrap">
                                 <a href="#" class="btn icon-btn-sm btn-outline-primary m-1">
                                     <i class="fas fa-edit"></i>
@@ -130,7 +142,7 @@
                         </tr>
                         }
                     </tbody>
-                </table>
+                 </table>
             </div>
         </div>
     </div>

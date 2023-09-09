@@ -22,7 +22,7 @@ namespace KorsatkoApp.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("KorsatkoApp.Models.Course", b =>
+            modelBuilder.Entity("KorsatkoApp.Areas.Admin.Models.Course", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,13 +51,13 @@ namespace KorsatkoApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 123,
-                            AddedOn = new DateTime(2023, 8, 29, 17, 6, 34, 84, DateTimeKind.Local).AddTicks(1778),
+                            AddedOn = new DateTime(2023, 9, 8, 1, 10, 8, 923, DateTimeKind.Local).AddTicks(2381),
                             Description = "C++ Programming Language for Advanced Programmers",
                             Name = "Advanced C++",
                             Prerequisites = "C Course",
@@ -66,7 +66,7 @@ namespace KorsatkoApp.Data.Migrations
                         new
                         {
                             Id = 124,
-                            AddedOn = new DateTime(2023, 8, 29, 17, 6, 34, 84, DateTimeKind.Local).AddTicks(1784),
+                            AddedOn = new DateTime(2023, 9, 8, 1, 10, 8, 923, DateTimeKind.Local).AddTicks(2386),
                             Description = "C Programming Language",
                             Name = "C For Beginners",
                             Prerequisites = "None",
@@ -74,16 +74,19 @@ namespace KorsatkoApp.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("KorsatkoApp.Models.Enrolment", b =>
+            modelBuilder.Entity("KorsatkoApp.Areas.Admin.Models.Enrollment", b =>
                 {
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<string>("StudentId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("SessionId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("AddedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("EnrollmentNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PaymentStatus")
                         .IsRequired()
@@ -93,19 +96,16 @@ namespace KorsatkoApp.Data.Migrations
 
                     b.HasIndex("SessionId");
 
-                    b.ToTable("Enrolments");
+                    b.ToTable("Enrollments", (string)null);
                 });
 
-            modelBuilder.Entity("KorsatkoApp.Models.Instructor", b =>
+            modelBuilder.Entity("KorsatkoApp.Areas.Admin.Models.Instructor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("AddedOn")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -135,24 +135,10 @@ namespace KorsatkoApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Instructors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 567,
-                            AddedOn = new DateTime(2023, 8, 29, 17, 6, 34, 84, DateTimeKind.Local).AddTicks(2045),
-                            Email = "Aba@gmail.com",
-                            ExperienceYears = 8,
-                            FullName = "Abanob",
-                            Gender = "M",
-                            NationalId = "321857012",
-                            PhoneNumber = "0123456789",
-                            Qualifications = "Doctor"
-                        });
+                    b.ToTable("Instructors", (string)null);
                 });
 
-            modelBuilder.Entity("KorsatkoApp.Models.Session", b =>
+            modelBuilder.Entity("KorsatkoApp.Areas.Admin.Models.Session", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -200,43 +186,33 @@ namespace KorsatkoApp.Data.Migrations
 
                     b.HasIndex("InstructorId");
 
-                    b.ToTable("Sessions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 456,
-                            AddedOn = new DateTime(2023, 8, 29, 17, 6, 34, 84, DateTimeKind.Local).AddTicks(2091),
-                            CourseId = 123,
-                            EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            InstructorId = 567,
-                            IsAvailable = true,
-                            Limit = 30,
-                            Location = "Online",
-                            PriceRate = 1f,
-                            StartDate = new DateTime(2023, 8, 29, 14, 6, 34, 84, DateTimeKind.Utc).AddTicks(2094),
-                            startTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
+                    b.ToTable("Sessions", (string)null);
                 });
 
-            modelBuilder.Entity("KorsatkoApp.Models.Student", b =>
+            modelBuilder.Entity("KorsatkoApp.Areas.Admin.Models.Student", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("AddedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("BirthOfDate")
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -246,40 +222,54 @@ namespace KorsatkoApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(1)");
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<string>("NationalId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Students");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 789,
-                            AddedOn = new DateTime(2023, 8, 29, 17, 6, 34, 84, DateTimeKind.Local).AddTicks(2071),
-                            BirthOfDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "Adele@gmail.com",
-                            FullName = "Adele",
-                            Gender = "F",
-                            NationalId = "32185776582",
-                            PhoneNumber = "012987654",
-                            UserName = "CoolAdele",
-                            UserPassword = "a123"
-                        });
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -334,71 +324,6 @@ namespace KorsatkoApp.Data.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -427,12 +352,10 @@ namespace KorsatkoApp.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -469,12 +392,10 @@ namespace KorsatkoApp.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -484,16 +405,16 @@ namespace KorsatkoApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("KorsatkoApp.Models.Enrolment", b =>
+            modelBuilder.Entity("KorsatkoApp.Areas.Admin.Models.Enrollment", b =>
                 {
-                    b.HasOne("KorsatkoApp.Models.Session", "session")
-                        .WithMany("Enrolments")
+                    b.HasOne("KorsatkoApp.Areas.Admin.Models.Session", "session")
+                        .WithMany("Enrollments")
                         .HasForeignKey("SessionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KorsatkoApp.Models.Student", "student")
-                        .WithMany("Enrolments")
+                    b.HasOne("KorsatkoApp.Areas.Admin.Models.Student", "student")
+                        .WithMany("Enrollments")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -503,15 +424,15 @@ namespace KorsatkoApp.Data.Migrations
                     b.Navigation("student");
                 });
 
-            modelBuilder.Entity("KorsatkoApp.Models.Session", b =>
+            modelBuilder.Entity("KorsatkoApp.Areas.Admin.Models.Session", b =>
                 {
-                    b.HasOne("KorsatkoApp.Models.Course", "course")
+                    b.HasOne("KorsatkoApp.Areas.Admin.Models.Course", "course")
                         .WithMany("Sessions")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KorsatkoApp.Models.Instructor", "instructor")
+                    b.HasOne("KorsatkoApp.Areas.Admin.Models.Instructor", "instructor")
                         .WithMany("Sessions")
                         .HasForeignKey("InstructorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -533,7 +454,7 @@ namespace KorsatkoApp.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("KorsatkoApp.Areas.Admin.Models.Student", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -542,7 +463,7 @@ namespace KorsatkoApp.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("KorsatkoApp.Areas.Admin.Models.Student", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -557,7 +478,7 @@ namespace KorsatkoApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("KorsatkoApp.Areas.Admin.Models.Student", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -566,31 +487,31 @@ namespace KorsatkoApp.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("KorsatkoApp.Areas.Admin.Models.Student", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("KorsatkoApp.Models.Course", b =>
+            modelBuilder.Entity("KorsatkoApp.Areas.Admin.Models.Course", b =>
                 {
                     b.Navigation("Sessions");
                 });
 
-            modelBuilder.Entity("KorsatkoApp.Models.Instructor", b =>
+            modelBuilder.Entity("KorsatkoApp.Areas.Admin.Models.Instructor", b =>
                 {
                     b.Navigation("Sessions");
                 });
 
-            modelBuilder.Entity("KorsatkoApp.Models.Session", b =>
+            modelBuilder.Entity("KorsatkoApp.Areas.Admin.Models.Session", b =>
                 {
-                    b.Navigation("Enrolments");
+                    b.Navigation("Enrollments");
                 });
 
-            modelBuilder.Entity("KorsatkoApp.Models.Student", b =>
+            modelBuilder.Entity("KorsatkoApp.Areas.Admin.Models.Student", b =>
                 {
-                    b.Navigation("Enrolments");
+                    b.Navigation("Enrollments");
                 });
 #pragma warning restore 612, 618
         }

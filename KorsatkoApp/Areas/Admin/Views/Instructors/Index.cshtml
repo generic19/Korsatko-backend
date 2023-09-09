@@ -1,39 +1,38 @@
-﻿@model IEnumerable<KorsatkoApp.Models.Instructor>
+﻿@model IEnumerable<Instructor>
 
-@{
-    ViewData["Title"] = "Index";
-}
+    @{
+    ViewData["Title"] = "المدربين";
+    }
+    <!-- Content Header (Page header) -->
+    <section class="container content-header mb-2">
+        <div class="px-3 px-sm-2 px-lg-3">
+            <div class="row mt-3 mb-1">
+                <h1 class="arabic">المدربين</h1>
+            </div>
 
-
-
-<!-- Content Header (Page header) -->
-<section class="container content-header mb-2">
-    <div class="px-3 px-sm-2 px-lg-3">
-        <div class="row mt-3 mb-1">
-            <h1 class="arabic">المدربين</h1>
+            <div class="row">
+                <ol class="breadcrumb arabic sm">
+                    <li class="breadcrumb-item">
+                        <a asp-area="Admin" asp-controller="home" asp-action="Index">الصفحة الرئيسية</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        المدربين
+                    </li>
+                </ol>
+            </div>
         </div>
 
-        <div class="row">
-            <ol class="breadcrumb arabic sm">
-                <li class="breadcrumb-item">
-                    <a asp-controller="Home">الصفحة الرئيسية</a>
-                </li>
-                <li class="breadcrumb-item">
-                    المدربين
-                </li>
-            </ol>
-        </div>
-    </div>
-</section>
+    </section>
 
-<!-- Main content -->
+
+
 <section class="content pb-5">
     <div class="container">
         <div class="card">
             <div class="card-body arabic">
-                <div class="row mb-2">
+                <div class="row">
                     <div class="col-12 col-sm-8" id="tableButtons">
-                        <a class="btn btn-primary" asp-action="Create">اضافة</a>
+                        <a class="btn btn-success" asp-action="Create">إضافة</a>
                     </div>
 
                     <div class="col-12 col-sm-4">
@@ -42,71 +41,114 @@
                     </div>
                 </div>
 
+
                 <table id="datatable" class="table table-hover">
-                    <thead class="thead-light"></thead>
-                    <tbody></tbody>
+                    <thead class="thead-light">
+                        <tr>
+                            <th>الاسم بالكامل</th>
+                            <th>الجنس</th>
+                            <th>رقم الهاتف</th>
+                            <th>المؤهلات</th>
+                            <th>الرقم القومي</th>
+                            <th>سنوات الخبرة</th>
+                            <th>البريد الإلكتروني</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model) {
+
+                            <tr>
+                                <td>@item.FullName</td>
+                                @if (item.Gender == 'f') {
+                                    <td>انثى</td>
+                                } else {
+                                    <td>ذكر</td>   
+                                }
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.Qualifications</td>
+                                <td>@item.NationalId</td>
+                                <td>@item.ExperienceYears</td>
+                                <td>@item.Email</td>
+
+                                <td class="text-nowrap">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn icon-btn-sm btn-outline-primary m-1">
+                                        <i class="fas fa-info"></i>
+                                    </a>
+
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn icon-btn-sm btn-outline-primary m-1">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn icon-btn-sm btn-outline-danger m-1">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 </section>
 
-@section Styles {
-    <link rel="stylesheet" href="~/areas/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="~/areas/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="~/areas/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-}
-
-@section Scripts {
-    <script src="~/areas/admin/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/areas/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="~/areas/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="~/areas/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="~/areas/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="~/areas/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="~/areas/admin/plugins/jszip/jszip.min.js"></script>
-    <script src="~/areas/admin/plugins/pdfmake/pdfmake.min.js"></script>
-    <script src="~/areas/admin/plugins/pdfmake/vfs_fonts.js"></script>
-    <script src="~/areas/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="~/areas/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="~/areas/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-
-    <script src="~/areas/admin/js/populate-datatable.js"></script>
-
+@section Scripts{
+    <!-- jQuery -->
+    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="~/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/plugins/adminlte/js/adminlte.min.js"></script>
+    <!-- DataTables -->
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/plugins/jszip/jszip.min.js"></script>
+    <script src="~/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
     <script>
-        const columnNames = [
-            "الاسم",
-            "النوع",
-            "الرقم القومي",
-            "سنوات الخبرة",
-            "الخبرات",
-            "البريد الالكتروني",
-            "رقم الهاتف",
-        ];
+        var t = $('#datatable')
+            .DataTable({
+                language: {
+                    url: "/plugins/datatables/locale/ar.json"
+                },
+                paging: true,
+                lengthChange: false,
+                searching: true,
+                ordering: true,
+                autoWidth: false,
+                responsive: true,
+                serverSide: false,
+                initComplete: function () {
+                    const api = this.api();
 
-        const entries = [
-        @foreach (var item in Model)
-        {
-            @:{
-            @:values: [
-            @:"@item.FullName",
-            @:"@item.Gender",
-            @:"@item.NationalId",
-            @:"@item.ExperienceYears",
-            @:"@item.Qualifications",
-            @:"@item.Email",
-            @:"@item.PhoneNumber",
-            @:],
-            @:actions: {
-            @:details: "@Url.Action("Details", new { id = item.Id })",
-            @:edit: "@Url.Action("Edit", new { id = item.Id })",
-            @:delete: "@Url.Action("Delete", new { id = item.Id })",
-            @:}
-            @:},
-        }
-                                ];
+                    const addButtons = buttons => {
+                        new $.fn.dataTable.Buttons(api, { buttons });
+                        api.buttons().container().appendTo('#tableButtons');
+                    }
+                    addButtons(["colvis"]);
+                },
+                columnDefs: [
+                    { targets: [-1], orderable: false }
+                ]
+            });
 
-        populateDataTable(columnNames, entries);
+        $("#search").on("input", (e) => {
+            const q = e.target.value;
+            console.log(q);
+            t.column(0).search(q).draw();
+        });
     </script>
 }

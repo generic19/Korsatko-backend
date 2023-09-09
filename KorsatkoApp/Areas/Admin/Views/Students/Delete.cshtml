@@ -1,8 +1,7 @@
-﻿@model KorsatkoApp.Models.Student
+﻿@model Student
 
 @{
     ViewData["Title"] = "Delete";
-    Layout = "~/Areas/Admin/Views/_AdminLayout.cshtml";
 }
 
 <h1>Delete</h1>
@@ -19,16 +18,16 @@
             @Html.DisplayFor(model => model.UserName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserPassword)
+            @Html.DisplayNameFor(model => model.PasswordHash)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserPassword)
+            @Html.DisplayFor(model => model.PasswordHash)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BirthOfDate)
+            @Html.DisplayNameFor(model => model.DateOfBirth)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BirthOfDate)
+            @Html.DisplayFor(model => model.DateOfBirth)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FullName)
@@ -67,7 +66,7 @@
             @Html.DisplayFor(model => model.AddedOn)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

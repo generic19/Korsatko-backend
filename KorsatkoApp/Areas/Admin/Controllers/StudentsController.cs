@@ -1,119 +1,85 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using KorsatkoApp.Areas.Admin.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using KorsatkoApp.Data;
-using KorsatkoApp.Models;
-using Microsoft.AspNetCore.Mvc.Filters;
+using NToastNotify;
+using Rotativa.AspNetCore;
 
-namespace KorsatkoApp.Areas.Admin.Controllers
-{
+namespace KorsatkoApp.Areas.Admin.Controllers {
+
     [Area("Admin")]
-    public class StudentsController : Controller
-    {
-        private readonly ApplicationDbContext _context;
+    public class StudentsController : Controller {
+        private readonly UserManager<Student> _userManager;
+        private readonly IToastNotification _toastNotification;
 
-        public StudentsController(ApplicationDbContext context)
-        {
-            _context = context;
+        public StudentsController(UserManager<Student> userManager, IToastNotification toastNotification) {
+            _toastNotification = toastNotification;
+            _userManager = userManager;
         }
 
-		// GET: Admin/Students
-		public async Task<IActionResult> Index()
-        {
-              return _context.Students != null ? 
-                          View(await _context.Students.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Students'  is null.");
+        public IActionResult Index() {
+            var Users = _userManager.Users.ToList();
+            return View(Users);
+        }    
+        public IActionResult Print() {
+            var Users = _userManager.Users.ToList();
+            var report = new ViewAsPdf("Print", Users) {
+                PageMargins = { Left = 20, Bottom = 20, Right = 20, Top = 20 },
+            };
+            return report;
         }
 
-
-        // GET: Admin/Students/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Students == null)
-            {
+        public async Task<IActionResult> Details(string? id) {
+            if (id == null || _userManager.Users == null) {
                 return NotFound();
             }
-
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
-            {
+            var student = await _userManager.Users
+                .FirstOrDefaultAsync(m => m.Id.Equals(id));
+            if (student == null) {
                 return NotFound();
             }
-
             return View(student);
         }
-
-        // GET: Admin/Students/Create
-        public IActionResult Create()
-        {
+        public IActionResult Create() {
             return View();
         }
 
-
-        // POST: Admin/Students/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserName,UserPassword,BirthOfDate,Id,FullName,Gender,Email,PhoneNumber,NationalId,AddedOn")] Student student)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
+        public async Task<IActionResult> Create([Bind("UserName,UserPassword,BirthOfDate,Id,FullName,Gender,Email,PhoneNumber,NationalId,AddedOn")] Student student) {
+            if (ModelState.IsValid) {
+                await _userManager.CreateAsync(student);
+                //   await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
         }
-
-        // GET: Admin/Students/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Students == null)
-            {
+        public async Task<IActionResult> Edit(string? id) {
+            if (id == null || _userManager.Users == null) {
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
-            {
+            var student = await _userManager.FindByIdAsync(id);
+            if (student == null) {
                 return NotFound();
             }
             return View(student);
         }
-
-        // POST: Admin/Students/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserName,UserPassword,BirthOfDate,Id,FullName,Gender,Email,PhoneNumber,NationalId,AddedOn")] Student student)
-        {
-            if (id != student.Id)
-            {
+        public async Task<IActionResult> Edit(int id, [Bind("UserName,UserPassword,BirthOfDate,Id,FullName,Gender,Email,PhoneNumber,NationalId,AddedOn")] Student student) {
+            if (!id.Equals(student.Id)) {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(student);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StudentExists(student.Id))
-                    {
+            if (ModelState.IsValid) {
+                try {
+                    await _userManager.UpdateAsync(student);
+                    //                    await _context.SaveChangesAsync();
+                } catch (DbUpdateConcurrencyException) {
+                    if (!StudentExists(student.Id)) {
                         return NotFound();
-                    }
-                    else
-                    {
+                    } else {
                         throw;
                     }
                 }
@@ -121,46 +87,35 @@ namespace KorsatkoApp.Areas.Admin.Controllers
             }
             return View(student);
         }
-
-        // GET: Admin/Students/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Students == null)
-            {
+        public async Task<IActionResult> Delete(string? id) {
+            if (id == null || _userManager.Users == null) {
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
-            {
+            var student = await _userManager.Users
+                .FirstOrDefaultAsync(m => m.Id.Equals(id));
+            if (student == null) {
                 return NotFound();
             }
 
             return View(student);
         }
-
-        // POST: Admin/Students/Delete/5
         [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Students == null)
-            {
+        public async Task<IActionResult> DeleteConfirmed(string id) {
+            if (_userManager.Users == null) {
                 return Problem("Entity set 'ApplicationDbContext.Students'  is null.");
             }
-            var student = await _context.Students.FindAsync(id);
-            if (student != null)
-            {
-                _context.Students.Remove(student);
+            var student = await _userManager.FindByIdAsync(id);
+            if (student != null) {
+                await _userManager.DeleteAsync(student);
+                //_context.Students.Remove(student);
             }
-            
-            await _context.SaveChangesAsync();
+
+            //  await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        private bool StudentExists(int id)
-        {
-          return (_context.Students?.Any(e => e.Id == id)).GetValueOrDefault();
+        private bool StudentExists(string id) {
+            return (_userManager.Users?.Any(e => e.Id.Equals(id))).GetValueOrDefault();
         }
     }
 }

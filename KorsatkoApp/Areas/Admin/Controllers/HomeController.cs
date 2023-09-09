@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using KorsatkoApp.Areas.Admin.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 
 namespace KorsatkoApp.Areas.Admin.Controllers {
@@ -6,12 +8,17 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
     [Area("Admin")]
     public class HomeController : Controller {
         private readonly IToastNotification _toastNotification;
-        public HomeController(IToastNotification toastNotification) {
+        private readonly UserManager<Student> _userManager;
+
+        public HomeController(IToastNotification toastNotification, UserManager<Student> userManager) {
             _toastNotification = toastNotification;
+            _userManager = userManager;
         }
-        public IActionResult Index() {
+        public async Task<IActionResult> Index() {
+            var student = await _userManager.FindByEmailAsync(User.Identity?.Name!);
+
             //Success
-            _toastNotification.AddSuccessToastMessage("Welcome in arabic :D");
+            _toastNotification.AddInfoToastMessage("مرحبا بك , "+ student.FullName);
             return View();
         }
 

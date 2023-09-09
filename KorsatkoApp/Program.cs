@@ -1,33 +1,34 @@
+using KorsatkoApp.Areas.Admin.Models;
 using KorsatkoApp.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using NToastNotify;
+using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+//Add services to the container.
+builder.Services.AddControllersWithViews().AddNToastNotifyNoty(new NToastNotify.NotyOptions() {
+    ProgressBar = true,  // show the progress bar
+    Timeout = 3500,      // notification will be disapear after 3500ms,
+    Theme = "mint"      // Notify.Js theme name 
+}); //Marly:configuring NToastNotify services
+;
 builder.Services.AddRazorPages();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+builder.Services.AddIdentity<Student, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultUI()
+    .AddDefaultTokenProviders();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
-
-
-builder.Services.AddControllersWithViews().AddNToastNotifyNoty(new NToastNotify.NotyOptions() {
-    ProgressBar = true,  // show the progress bar
-    Timeout = 3500,      // notification will be disapear after 3500ms,
-    Theme = "mint"      // Notify.Js theme name 
-}); //Marly:configuring NToastNotify services
-
+//builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -44,6 +45,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+IWebHostEnvironment env = app.Environment;
+RotativaConfiguration.Setup((Microsoft.AspNetCore.Hosting.IHostingEnvironment)env);
+
 
 app.UseAuthorization();
 

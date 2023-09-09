@@ -1,9 +1,8 @@
-﻿@{
-	ViewData["Title"] = "Home Page";
-}
-@using KorsatkoApp.Models
+﻿@model List<Course>
+@using Microsoft.AspNetCore.Identity
 
-@model List<Course>
+@inject SignInManager<Student> SignInManager
+@inject UserManager<Student> UserManager
 
 <div class="content-wrapper">
 	<div class="fading-bg">
@@ -22,7 +21,7 @@
 				<div class="col-12 col-md-6 hero-image">
 					<div class="brand-full">
 						<div class="top">
-							<img src="~/img/logo-k.png">
+							<img src="~/img/k-logo-t.png">
 							<span>orsatko</span>
 						</div>
 						<div class="bottom">
@@ -31,14 +30,17 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="row mt-sm-5">
-				<div class="hero-call-to-action">
-					<a href="#" class="btn bg-primary-gradient glow-on-hover">
+			@if (!SignInManager.IsSignedIn(User))
+			{
+				<div class="row mt-sm-5">
+					<div class="hero-call-to-action">
+						<a asp-area="Identity" asp-page="/Account/Register" class="btn bg-primary-gradient glow-on-hover">
 						ابدا مشوارك الإحترافي
 					</a>
 				</div>
 			</div>
+			}
+
 		</div>
 	</div>
 
@@ -126,7 +128,7 @@
 
 			<div class="cards-container small mb-5">
 
-				@for (int i = 0; i < 4; i++) {
+				@for (int i = 0; i < 1; i++) {
 					@* Card2 *@
 					<a href="#" class="card card-fixed small scale-on-hover">
 						<div class="card-image">

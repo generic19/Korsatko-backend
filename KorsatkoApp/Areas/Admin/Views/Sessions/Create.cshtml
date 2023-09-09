@@ -1,275 +1,82 @@
-﻿@model KorsatkoApp.Models.Session
+﻿@model Session
 
 @{
     ViewData["Title"] = "Create";
 }
 
+<h1>Create</h1>
 
-@section Styles {
-    <link rel="stylesheet" href="~/areas/admin/plugins/select2/css/select2.min.css">
-    <link rel="stylesheet" href="~/areas/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-    <!-- jQuery UI -->
-    <link rel="stylesheet" href="~/areas/admin/plugins/jquery-ui/jquery-ui.min.css">
-    <!-- tempusdominus DatetimePicker -->
-    <link rel="stylesheet" href="~/areas/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-}
-
-
-@section Scripts {
-    <!-- Select2 -->
-    <script src="~/areas/admin/plugins/select2/js/select2.full.min.js"></script>
-    <script src="~/areas/admin/plugins/select2/js/i18n/ar.js"></script>
-    <!-- tempusdominus DatetimePicker -->
-    <script src="~/areas/admin/plugins/moment/moment.min.js"></script>
-    <script src="~/areas/admin/plugins/moment/locale/ar.js"></script>
-    <script src="~/areas/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-
-
-    <script>
-        $("document").ready(() => {
-            $("#@nameof(Model.InstructorId), #@nameof(Model.CourseId)").select2({
-                dir: "rtl",
-                width: "100%",
-                theme: "bootstrap4",
-                containerCssClass: "arabic",
-                dropdownCssClass: "arabic",
-            });
-
-            $('#@nameof(Model.StartDate), #@nameof(Model.EndDate)').datetimepicker({
-                format: 'L',
-                locale: "ar",
-                icons: {
-                    previous: 'fa fa-chevron-right',
-                    next: 'fa fa-chevron-left',
-                }
-            });
-
-            $('#@nameof(Model.EndDate)').on("change.datetimepicker", e => {
-                $("#@nameof(Model.EndDate)").datetimepicker("minDate", e.date);
-            });
-
-            $('#endDate').on("change.datetimepicker", e => {
-                $("#@nameof(Model.StartDate)").datetimepicker("maxDate", e.date);
-            });
-
-            $("#@nameof(Model.startTime), #@nameof(Model.EndTime)").datetimepicker({
-                format: 'h:mm a',
-            });
-        });
-    </script>
-}
-
-
-<!-- Content Header (Page header) -->
-<section class="container content-header mb-2">
-    <div class="px-3 px-sm-2 px-lg-3">
-        <div class="row mt-3 mb-1">
-            <h1 class="arabic">المواعيد</h1>
-        </div>
-
-        <div class="row">
-            <ol class="breadcrumb arabic sm">
-                <li class="breadcrumb-item">
-                    <a href="#">الصفحة الرئيسية</a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="#">المواعيد</a>
-                </li>
-                <li class="breadcrumb-item">
-                    معاد جديد
-                </li>
-            </ol>
-        </div>
-    </div>
-</section>
-
-
-<!-- Main content -->
-<section class="content pb-5">
-    <div class="container">
-        <form method="post" action="#" class="card">
-            <div class="card-body">
-                <div asp-validation-summary="ModelOnly" class="text-danger py-3"></div>
-
-                <div class="row">
-                    <div class="col-12 col-md-6 form-group">
-                        <label asp-for="CourseId">
-                            <span class="arabic">الكورس</span>
-                        </label>
-                        <select asp-for="CourseId" asp-items="ViewBag.Courses" class="form-control arabic select2bs4">
-                        </select>
-
-                        <div class="form-text text-danger">
-                            <span asp-validation-for="CourseId"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-6 form-group">
-                        <label for="studentName">
-                            <span class="arabic">المدرب</span>
-                        </label>
-
-                        <select asp-for="InstructorId" asp-items="ViewBag.Instructors"
-                                class="form-control arabic select2bs4">
-                        </select>
-
-                        <div class="form-text text-danger">
-                            <span asp-validation-for="InstructorId"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-6 form-group">
-                        <label asp-for="StartDate">
-                            <span class="arabic">تاريخ البداية</span>
-                        </label>
-
-                        <div class="input-group date" id="@nameof(Model.StartDate)" data-target-input="nearest">
-                            <input type="text" name="@nameof(Model.StartDate)" class="form-control datetimepicker-input"
-                                   data-target="#@nameof(Model.StartDate)" />
-
-                            <div class="input-group-append" data-target="#@nameof(Model.StartDate)"
-                                    data-toggle="datetimepicker">
-
-                                <div class="input-group-text">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-text text-danger">
-                            <span asp-validation-for="StartDate"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-6 form-group">
-                        <label asp-for="EndDate">
-                            <span class="arabic">تاريخ النهاية</span>
-                        </label>
-
-                        <div class="input-group date" id="@nameof(Model.EndDate)" data-target-input="nearest">
-
-                            <input type="text" name="@nameof(Model.EndDate)" class="form-control datetimepicker-input"
-                                   data-target="#@nameof(Model.EndDate)" />
-
-                            <div class="input-group-append" data-target="#@nameof(Model.EndDate)"
-                                    data-toggle="datetimepicker">
-
-                                <div class="input-group-text">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-text text-danger">
-                            <span asp-validation-for="EndDate"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-12 form-group">
-                        <label for="daysOfWeek">
-                            <span class="arabic">الأيام</span>
-                        </label>
-
-                        <div class="d-block btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-choice mb-1">
-                                <input type="checkbox" name="daysOfWeek" id="daysOfWeek_sun"
-                                        value="sun">
-                                <span class="arabic font-weight-normal">الأحد</span>
-                            </label>
-
-                            <label class="btn btn-choice mb-1">
-                                <input type="checkbox" name="daysOfWeek" id="daysOfWeek_mon"
-                                        value="mon">
-                                <span class="arabic font-weight-normal">الاثنين</span>
-                            </label>
-
-                            <label class="btn btn-choice mb-1">
-                                <input type="checkbox" name="daysOfWeek" id="daysOfWeek_tue"
-                                        value="tue">
-                                <span class="arabic font-weight-normal">الثلاثاء</span>
-                            </label>
-
-                            <label class="btn btn-choice mb-1">
-                                <input type="checkbox" name="daysOfWeek" id="daysOfWeek_wed"
-                                        value="wed">
-                                <span class="arabic font-weight-normal">الأربعاء</span>
-                            </label>
-
-                            <label class="btn btn-choice mb-1">
-                                <input type="checkbox" name="daysOfWeek" id="daysOfWeek_thu"
-                                        value="thu">
-                                <span class="arabic font-weight-normal">الخميس</span>
-                            </label>
-
-                            <label class="btn btn-choice mb-1">
-                                <input type="checkbox" name="daysOfWeek" id="daysOfWeek_fri"
-                                        value="fri">
-                                <span class="arabic font-weight-normal">الجمعة</span>
-                            </label>
-
-                            <label class="btn btn-choice mb-1">
-                                <input type="checkbox" name="daysOfWeek" id="daysOfWeek_sat"
-                                        value="sat">
-                                <span class="arabic font-weight-normal">السبت</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-6 form-group">
-                        <label asp-for="startTime">
-                            <span class="arabic">وقت البداية</span>
-                        </label>
-
-                        <div class="input-group date" id="@nameof(Model.startTime)" data-target-input="nearest">
-                            <input type="text" name="@nameof(Model.startTime)" class="form-control datetimepicker-input"
-                                   data-target="#@nameof(Model.startTime)" />
-
-                            <div class="input-group-append" data-target="#@nameof(Model.startTime)"
-                                    data-toggle="datetimepicker">
-
-                                <div class="input-group-text">
-                                    <i class="fas fa-clock"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-text text-danger">
-                            <span asp-validation-for="startTime"></span>
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-6 form-group">
-                        <label asp-for="EndTime">
-                            <span class="arabic">وقت النهاية</span>
-                        </label>
-
-                        <div class="input-group date" id="@nameof(Model.EndTime)" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input"
-                                   data-target="#@nameof(Model.EndTime)" />
-
-                            <div class="input-group-append" data-target="#@nameof(Model.EndTime)"
-                                    data-toggle="datetimepicker">
-
-                                <div class="input-group-text">
-                                    <i class="fas fa-clock"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-text text-danger">
-                            <span asp-validation-for="EndTime"></span>
-                        </div>
-                    </div>
-                </div>
+<h4>Session</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CourseId" class="control-label"></label>
+                <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstructorId" class="control-label"></label>
+                <select asp-for="InstructorId" class="form-control" asp-items="ViewBag.InstructorId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" type="date" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" type="date" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
 
-            <div class="card-footer">
-                <div class="">
-                    <input type="submit" value="إضافة" class="btn btn-primary px-3 arabic">
-                    <a href="#" class="btn btn-outline-danger px-3 arabic">إلغاء</a>
-                </div>
+            <div class="form-group">
+                <label asp-for="Limit" class="control-label"></label>
+                <input asp-for="Limit" class="form-control" />
+                <span asp-validation-for="Limit" class="text-danger"></span>
+
+
+            <div class="form-group">
+                <label asp-for="startTime" class="control-label"></label>
+                <input asp-for="startTime" class="form-control" type="time" />
+                <span asp-validation-for="startTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndTime" class="control-label"></label>
+                    <input asp-for="EndTime" class="form-control" type="time" />
+                <span asp-validation-for="EndTime" class="text-danger"></span>
+            </div>
+
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsAvailable" /> @Html.DisplayNameFor(model => model.IsAvailable)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriceRate" class="control-label"></label>
+                <input asp-for="PriceRate" class="form-control" />
+                <span asp-validation-for="PriceRate" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
-
     </div>
-</section>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

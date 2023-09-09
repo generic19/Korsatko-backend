@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
+using KorsatkoApp.Areas.Admin.Models;
 using KorsatkoApp.Data;
 using KorsatkoApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Rotativa.AspNetCore;
 
 namespace KorsatkoApp.Controllers {
     public class HomeController : Controller {
@@ -11,7 +13,7 @@ namespace KorsatkoApp.Controllers {
         public HomeController(ApplicationDbContext context) {
             _context = context;
         }
-
+ 
         public IActionResult Index() {
             List<Course> courses=_context.Courses.ToList();
             return View(courses);
