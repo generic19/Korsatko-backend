@@ -1,130 +1,92 @@
 ﻿@model CourseViewModel
 
 @{
-	ViewData["Title"] = "إضافة كورس";
+	Layout = "_HeaderAdminLayout";
 }
 
-<section class="container content-header mb-2">
-	<div class="px-3 px-sm-2 px-lg-3">
-		<div class="row mt-3 mb-1">
-			<h1 class="arabic">إضافة كورس</h1>
-		</div>
 
+<form asp-action="Create" enctype="multipart/form-data" class="card" method="post">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	<div class="card-body">
 		<div class="row">
-			<ol class="breadcrumb arabic sm">
-				<li class="breadcrumb-item">
-					<a asp-area="Admin" asp-controller="home" asp-action="Index">الصفحة الرئيسية</a>
-				</li>
-				<li class="breadcrumb-item">
-					<a asp-area="Admin" asp-controller="courses" asp-action="Index">الكورسات</a>
-				</li>
-				<li class="breadcrumb-item">
-					كورس جديد
-				</li>
-			</ol>
+			<div class="col-12 form-group">
+				<label asp-for="Name">
+					<span class="arabic">اسم الكورس</span>
+				</label>
+				<span asp-validation-for="Name" class="text-danger"></span>
+				<input asp-for="Name" type="text" class="form-control arabic">
+			</div>
+
+			<div class="col-12 form-group">
+				<label asp-for="Description">
+					<span class="arabic">محتوى الكورس</span>
+				</label>
+				<span asp-validation-for="Description" class="text-danger"></span>
+
+				<textarea asp-for="Description" class="form-control arabic"></textarea>
+			</div>
+
+			<div class="col-12 form-group">
+				<label asp-for="Prerequisites">
+					<span class="arabic">متطلبات الكورس</span>
+				</label>
+				<span asp-validation-for="Prerequisites" class="text-danger"></span>
+				<input asp-for="Prerequisites" type="text" class="form-control arabic">
+			</div>
+
+			<div class="col-md-6">
+				<div class="form-group">
+					<label asp-for="CoursePicture" class="control-label arabic"></label>
+					<div class="custom-file">
+						<input asp-for="CoursePicture" class="custom-file-input" />
+						<label class="custom-file-label" for="customFile">اختار صورة</label>
+					</div>
+					<span asp-validation-for="CoursePicture" class="text-danger"></span>
+				</div>
+			</div>
+
+
+			<div class="col-12 col-md-6 form-group">
+				<label asp-for="Price">
+					<span class="arabic">سعر الكورس</span>
+				</label>
+				<span asp-validation-for="Price" class="text-danger"></span>
+
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text">
+							EGP
+						</span>
+					</div>
+
+					<input asp-for="Price" type="number"
+							class="form-control arabic" placeholder="1000">
+				</div>
+			</div>
 		</div>
 	</div>
 
-</section>
-
-<section class="content pb-5">
-	<div class="container">
-		<form asp-action="Create" enctype="multipart/form-data" class="card" method="post">
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<div class="card-body">
-				<div class="row">
-					<div class="col-12 form-group">
-						<label asp-for="Name">
-							<span class="arabic">اسم الكورس</span>
-						</label>
-						<span asp-validation-for="Name" class="text-danger"></span>
-						<input asp-for="Name" type="text" id="courseName" class="form-control arabic">
-					</div>
-
-					<div class="col-12 form-group">
-						<label asp-for="Description">
-							<span class="arabic">محتوى الكورس</span>
-						</label>
-						<span asp-validation-for="Description" class="text-danger"></span>
-
-						<textarea asp-for="Description" id="courseContent" class="form-control arabic"></textarea>
-					</div>
-
-					<div class="col-12 form-group">
-						<label asp-for="Prerequisites">
-							<span class="arabic">متطلبات الكورس</span>
-						</label>
-						<span asp-validation-for="Prerequisites" class="text-danger"></span>
-						<input asp-for="Prerequisites" type="text" id="courseName" class="form-control arabic">
-					</div>
-
-					<div class="col-md-6">
-						<div class="form-group">
-							<label asp-for="CoursePicture" class="control-label"></label>
-							<div class="custom-file">
-								<input asp-for="CoursePicture" class="custom-file-input" />
-								<label class="custom-file-label" for="customFile">اختار صورة</label>
-							</div>
-							<span asp-validation-for="CoursePicture" class="text-danger"></span>
-						</div>
-					</div>
-
-
-					<div class="col-12 col-md-6 form-group">
-						<label asp-for="Price">
-							<span class="arabic">سعر الكورس</span>
-						</label>
-						<span asp-validation-for="Price" class="text-danger"></span>
-
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									EGP
-								</span>
-							</div>
-
-							<input asp-for="Price" type="number" id="coursePrice"
-								   class="form-control arabic" placeholder="1000">
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="card-footer">
-				<div class="">
-					<input type="submit" value="إضافة" class="btn btn-primary px-3 arabic">
-					<a asp-action="Index" class="btn btn-outline-danger px-3 arabic">إلغاء</a>
-				</div>
-			</div>
-
-		</form>
-
+	<div class="card-footer">
+		<div class="">
+			<input type="submit" value="إضافة" class="btn btn-primary px-3 arabic">
+			<a asp-action="Index" class="btn btn-outline-danger px-3 arabic">إلغاء</a>
+		</div>
 	</div>
-</section>
+
+</form>
+
+
+@section Styles {
+	<link href="~/admin/plugins/summernote/summernote-bs4.min.css" rel="stylesheet">
+}
 
 @section Scripts {
-	<!-- jQuery -->
-	<script src="~/plugins/jquery/jquery.min.js"></script>
-	<!-- Bootstrap 4 -->
-	<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- overlayScrollbars -->
-	<script src="~/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-	<!-- AdminLTE App -->
-	<script src="~/plugins/adminlte/js/adminlte.min.js"></script>
-	<!-- SummerNote -->
-	<script src="~/plugins/summernote/summernote-bs4.min.js"></script>
-	<script src="~/plugins/summernote/lang/summernote-ar-AR.min.js"></script>
-
+	<script src="~/admin/plugins/summernote/summernote-bs4.min.js"></script>
+	<script src="~/admin/plugins/summernote/lang/summernote-ar-AR.min.js"></script>
 
 	<script>
-		// Add the following code if you want the name of the file appear on select
-		$(".custom-file-input").on("change", function () {
-			var fileName = $(this).val().split("\\").pop();
-			$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-		});
-
-		$(document).ready(function () {
-			$('#courseContent').summernote({
+		$("document").ready(function () {
+			$('#@Html.NameFor(m => m.Description)').summernote({
 				lang: "ar-AR",
 				height: 100,
 				toolbar: [
@@ -136,7 +98,7 @@
 			});
 		});
 	</script>
-	@{
-		await Html.RenderPartialAsync("_ValidationScriptsPartial");
-	}
+
+
+	@await Html.PartialAsync("_ValidationScriptsPartial")
 }
