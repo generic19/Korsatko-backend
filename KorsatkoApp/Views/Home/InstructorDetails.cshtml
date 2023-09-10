@@ -4,57 +4,37 @@
     ViewData["Title"] = "InstructorDetails";
 }
 
-<h1>InstructorDetails</h1>
 
-<div>
-    <h4>Instructor</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NationalId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NationalId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ExperienceYears)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ExperienceYears)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Qualifications)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Qualifications)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+@{
+    ViewData["Title"] = "المدرب " + Model.FullName;
+}
+
+<div class="content-wrapper">
+    <div class="fading-bg px-2 pt-5 pb-5">
+        <div class="container pb-5">
+            <h1 class="mb-4">المدرب @Model.FullName</h1>
+
+            <img src="@(Model.Gender == 'F' ? Href("~/img/female.jpg") : Href("~/img/male.jpg"))"
+                 alt="Profile"
+                 class="thumbnail rounded mb-4">
+
+            <h2 class="mt-4">المؤهلات والخبرات</h2>
+            @Html.Raw(Model.Qualifications)
+
+            <h4 class="mt-4 mb-3">للتواصل مع المدرب</h4>
+
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="fw-bold pe-3">البريد الإلكتروني</td>
+                        <td>@Model.Email</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold pe-3">رقم الهاتف</td>
+                        <td>@Model.PhoneNumber</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

@@ -7,10 +7,8 @@
 @model HomeViewModel
 
 @{
-    if (SignInManager.IsSignedIn(User))
-    {
-        Layout = "_LoggedInLayout";
-    }
+    Layout = SignInManager.IsSignedIn(User) ? "_LoggedInLayout" : "_Layout";
+    ViewBag.activeNavbarItem = "home";
 }
 
 <div class="content-wrapper">

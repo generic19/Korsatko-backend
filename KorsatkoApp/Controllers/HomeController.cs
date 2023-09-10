@@ -25,19 +25,31 @@ namespace KorsatkoApp.Controllers {
 			};
             return View(model);
         }
-        public async Task<IActionResult> CourseDetails(int id) {
-			if (id == null || _context.Instructors == null) {
+        public async Task<IActionResult> CourseDetails(int? id) {
+			if (id == 0 || _context.Instructors == null) {
 				return NotFound();
 			}
-			var course = await _context.Courses
-				.FirstOrDefaultAsync(m => m.Id == id);
 
+			var course = await _context.Courses
+				.Where(e => e.Id == id)
+				.Include(e => e.Sessions)
+				.ThenInclude(e => e.instructor)
+				.FirstAsync();
+				
 			if (course == null) {
 				return NotFound();
 			}
+
 			return View(course);
         }
-        public async Task <IActionResult> InstructorDetails(int id) {
+
+		public async Task<IActionResult> Instructors()
+		{
+			var instructors = await _context.Instructors.ToListAsync();
+			return View(instructors);
+		}
+
+        public async Task <IActionResult> InstructorDetails(int? id) {
 			if (id == null || _context.Instructors == null) {
 				return NotFound();
 			}
@@ -50,6 +62,21 @@ namespace KorsatkoApp.Controllers {
 			return View(instructor);
         }
 
+		public async Task<IActionResult> Courses()
+		{
+			var courses = await _context.Courses
+				.Include(e => e.Sessions)
+				.ThenInclude(e => e.instructor)
+				.ToListAsync();
+
+			return View(courses);
+		}
+
+
+		public IActionResult AboutUs()
+		{
+			return View();
+		}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() {

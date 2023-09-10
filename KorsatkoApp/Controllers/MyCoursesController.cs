@@ -20,27 +20,6 @@ namespace KorsatkoApp.Controllers {
 				.Where(e => e.student.Email == User.Identity.Name).ToList();
 			return View(enrolls);
 		}
-		public async Task<IActionResult> Details(string id) {
-			if (id == null || _context.Enrollments == null) {
-				return NotFound();
-			}
-			var enrollment = await _context.Enrollments
-			.FirstOrDefaultAsync(m => m.EnrollmentNumber == id);
-
-
-			var session = _context.Sessions
-				.Include(s => s.course)
-                .Include(s => s.instructor)
-                .Include(s => s.Enrollments)
-                .ThenInclude(s => s.student)
-                .Where(s => s.Enrollments.Contains(enrollment)).First();
-
-			if (enrollment == null) {
-				return NotFound();
-			}
-
-			return View(session);
-		}
 
 		public async Task<IActionResult> Sessions()
 		{

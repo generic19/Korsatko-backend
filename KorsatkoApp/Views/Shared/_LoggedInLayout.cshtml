@@ -68,7 +68,7 @@
 
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a asp-controller="MyCourses" class="sidebar-item">
+                        <a asp-controller="MyCourses" asp-action="Index" class="sidebar-item">
                             <div class="icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                      width="36" height="33.241" viewBox="0 0 36 33.241">
@@ -133,41 +133,7 @@
         </div>
 
         <div class="page-wrapper">
-
-            <nav class="navbar navbar-expand-md mx-sm-3">
-                <div class="d-flex w-100 justify-content-between container-fluid">
-                    <a href="/" class="navbar-brand">
-                        <div class="brand-container drop-shadow">
-                            <img src="~/website/img/k-logo-t.png" alt="Korsatko" height="28">
-                        </div>
-                    </a>
-
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse me-auto mb-2 mb-md-0" id="mainNav">
-                        <div class="w-100 d-md-flex justify-content-between">
-                            <div class="">
-                                <ul class="navbar-nav">
-                                    <li class="nav-item">
-                                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">الصفحة الرئيسية</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">الدورات</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">المدربين</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">تواصل معنا</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            @await Html.PartialAsync("_NavbarPartial")
     
             @RenderBody()
 

@@ -73,7 +73,6 @@
 
                                         <table>
                                             <tr>
-                                                <td><i class="fa-solid fa-circle-dot pe-2"></i></td>
                                                 <td class="title">المدرب</td>
                                                 <td class="info">@item.session.instructor?.FullName</td>
                                             </tr>
@@ -83,32 +82,51 @@
                                                 <td>@item.session?.Days</td>
                                             </tr>*@
                                             <tr>
-                                                <td><i class="fa-solid fa-circle-dot pe-2"></i></td>
                                                 <td class="title">المدة</td>
                                                 <td>
                                                     من @dateStart
-                                                    <br>
+                                                    <br class="d-inline d-sm-none d-lg-inline d-xl-none">
                                                     إلى @dateEnd
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td><i class="fa-solid fa-circle-dot pe-2"></i></td>
                                                 <td class="title">الوقت</td>
                                                 <td>
                                                     من @timeStart
-                                                    <br>
+                                                    <br class="d-inline d-sm-none d-lg-inline d-xl-none">
                                                     إلى @timeEnd
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td><i class="fa-solid fa-circle-dot pe-2"></i></td>
                                                 <td class="title">المكان</td>
                                                 <td>@item.session.Location</td>
                                             </tr>
                                             <tr>
-                                                <td><i class="fa-solid fa-circle-check pe-2"></i></td>
-                                                <td class="title">الحالة</td>
-                                                <td>@item.PaymentStatus</td>
+                                                <td style="vertical-align: middle;" class="title">الحالة</td>
+                                                <td style="vertical-align: middle;">
+                                                    @if (item.PaymentStatus == "unpaid")
+                                                    {
+                                                        <div class="d-flex align-items-center">
+                                                            <span style="line-height: 1" class="me-2">
+                                                                غير مدفوع
+                                                            </span>
+
+                                                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                                                ادفع الآن
+                                                            </a>
+                                                        </div>
+                                                    }
+                                                    else if (item.PaymentStatus == "paid")
+                                                    {
+                                                        <span>
+                                                            مدفوع
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>@item.PaymentStatus</span>
+                                                    }
+                                                </td>
                                             </tr>
                                         </table>
                                     </div>
