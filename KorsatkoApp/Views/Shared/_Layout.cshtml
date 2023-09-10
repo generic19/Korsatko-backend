@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
+
 @inject SignInManager<Student> SignInManager
 @inject UserManager<Student> UserManager
+
 
 <!doctype html>
 <html lang="ar" dir="rtl">
@@ -15,82 +17,83 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo&family=Noto+Kufi+Arabic:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="~/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="~/website/css/bootstrap.rtl.min.css">
     <!-- FontAwesome -->
-    <link rel="stylesheet" href="~/plugins/fontawesome6/css/fontawesome.min.css">
-    <link rel="stylesheet" href="~/plugins/fontawesome6/css/regular.min.css">
-    <link rel="stylesheet" href="~/plugins/fontawesome6/css/solid.min.css">
+    <link rel="stylesheet" href="~/website/plugins/fontawesome6/css/fontawesome.min.css">
+    <link rel="stylesheet" href="~/website/plugins/fontawesome6/css/regular.min.css">
+    <link rel="stylesheet" href="~/website/plugins/fontawesome6/css/solid.min.css">
+
+    @await RenderSectionAsync("Styles", required: false)
 
     <!-- Website CSS -->
-    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/website/css/style.css">
 
-    <title>كورساتكو   @ViewData["Title"]</title>
-
+    <title>@(ViewData["Title"] == null ? "كورساتكو" : (ViewData["title"] + " - كورساتكو"))</title>
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-md mx-sm-3">
-            <div class="d-flex w-100 justify-content-between container-fluid">
-                <a href="~/" class="navbar-brand">
-                    <div class="brand-container drop-shadow">
-                        <img src="~/img/k-logo-t.png" alt="Korsatko" height="28">
+    <nav class="navbar navbar-expand-md mx-sm-3">
+        <div class="d-flex w-100 justify-content-between container-fluid">
+            <a href="/" class="navbar-brand">
+                <div class="brand-container drop-shadow">
+                    <img src="~/website/img/k-logo-t.png" alt="Korsatko" height="28">
+                </div>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="collapse navbar-collapse me-auto mb-2 mb-md-0" id="mainNav">
+                <div class="w-100 d-md-flex justify-content-between">
+                    <div class="">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link">الصفحة الرئيسية</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">الدورات</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">المدربين</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">تواصل معنا</a>
+                            </li>
+                        </ul>
                     </div>
-                </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+                    <div class="d-block">
+                        <div class="pt-md-1 pt-4 d-flex justify-content-center justify-content-md-end">
+                            <a asp-area="Identity" asp-page="/Account/Login" class="btn py-2 py-md-1 fw-light">
+                                تسجيل الدخول
+                            </a>
 
-                <div class="collapse navbar-collapse me-auto mb-2 mb-md-0" id="mainNav">
-                    <div class="w-100 d-md-flex justify-content-between">
-                        <div class="">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link active">الصفحة الرئيسية</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">الكورسات</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">المدربين</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">تواصل معنا</a>
-                                </li>
-                               @*  @if (SignInManager.IsSignedIn(User))
-                                { *@
-                                <li class="nav-item">
-                                        <a asp-area="Admin" asp-controller="home" asp-action="Index" class="nav-link">لوحة التحكم</a>
-                                        <a asp-area="" asp-controller="MyCourses" asp-action="Index" class="nav-link">كورساتي</a>
-                                </li>
-                                
-                            </ul>
+                            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary fw-light py-2 px-3 py-md-1 px-md-3">
+                                انضم إلينا
+                            </a>
                         </div>
-                        <partial name="_LoginPartial" />
                     </div>
                 </div>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+    
+    @RenderBody()
 
-            @RenderBody()
-
-    <footer class="footer text-bg-dark">
+    <footer class="footer text-bg-dark text-center text-md-start">
         <div class="container p-sm-3">
             <div class="row">
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-6 col-md-3 pb-4">
                     <h3>الروابط</h3>
 
-                    <ul class="nav flex-column">
+                    <ul class="nav flex-column align-items-center align-items-md-start">
                         <li class="nav-item">
-                            <a href="~/" class="nav-link white">الصفحة الرئيسية</a>
+                            <a asp-area ="" asp-controller="Home" asp-action="Index" class="nav-link white">الصفحة الرئيسية</a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link white">المسارات</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link white">الكورسات</a>
+                            <a href="#" class="nav-link white">الدورات</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link white">المدربين</a>
@@ -101,14 +104,14 @@
                     </ul>
                 </div>
 
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-6 col-md-3 pb-4">
                     <h3>من نحن</h3>
-                    <p>
+                    <p class="col-8 col-sm-10 mx-auto mx-md-0 text-start">
                         كورساتكو هو مركز تدريبي هدفة الارتقاء بالمستوى المهاري في مجال تطوير البرمجيات في مصر.
                     </p>
                 </div>
 
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-6 col-md-3 pb-4">
                     <h3>تواصل معنا</h3>
 
                     <h5>العنوان</h5>
@@ -118,11 +121,11 @@
 
                     <h5 class="mt-4">رقم التليفون</h5>
 
-                    <p class="ltr-right">(+20) 220302481</p>
-                    <p class="ltr-right">(+20) 1098220026</p>
+                    <p class="ltr-right-md">(+20) 220302481</p>
+                    <p class="ltr-right-md">(+20) 1098220026</p>
                 </div>
 
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-6 col-md-3 pb-4">
                     <h3>تابعنا</h3>
 
                     <div class="icons">
@@ -145,17 +148,15 @@
                 </div>
             </div>
 
-            <div class="text-center mt-5 copy-notice">
+            <div class="text-center my-2 copy-notice">
                 حقوق الطبع والنشر © 2023 Korsatko. جميع الحقوق محفوظة.
             </div>
         </div>
     </footer>
 
-    <script src="~/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/website/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
     @await Component.InvokeAsync("NToastNotify")
-
 </body>
+
 </html>
