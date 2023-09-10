@@ -38,93 +38,112 @@
 <body>
     <div class="wrapper">
         <div class="sidebar-wrapper">
-            <div class="sidebar">
-                <div class="profile">
-                    <button type="button" data-bs-toggle="dropdown">
-                        <img src="~/website/img/profile/1.jpg" alt="Profile Picture">
-                    </button>
-                    <ul class="dropdown-menu border-0 shadow-sm">
-                        <li>
-                            <div class="dropdown-header rounded-top">@student?.FullName</div>
-                        </li>
+            <div class="sidebar justify-content-sm-between">
+                <div class="d-flex flex-row-reverse flex-sm-column">
+                    <div class="profile">
+                        <button type="button" data-bs-toggle="dropdown">
+                            <img src="~/website/img/profile/1.jpg" alt="Profile Picture">
+                        </button>
+                        <ul class="dropdown-menu border-0 shadow-sm">
+                            <li>
+                                <div class="dropdown-header rounded-top">@student?.FullName</div>
+                            </li>
 
-                        <li>
-                            <a asp-controller="MyProfile" class="dropdown-item">
-                                <i class="fa-solid fa-user"></i>
-                                <span>صفحتي الشخصية</span>
+                            <li>
+                                <a asp-controller="MyProfile" class="dropdown-item">
+                                    <i class="fa-solid fa-user"></i>
+                                    <span>صفحتي الشخصية</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                    <a onclick="this.parentNode.submit();" class="dropdown-item">
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                        <span>تسجيل الخروج</span>
+                                    </a>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a asp-controller="MyCourses" asp-action="Index" class="sidebar-item">
+                                <div class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         width="36" height="33.241" viewBox="0 0 36 33.241">
+                                        <defs>
+                                            <filter id="event_list_FILL1_wght100_GRAD0_opsz24" x="0" y="0" width="36"
+                                                    height="33.241" filterUnits="userSpaceOnUse">
+                                                <feOffset dy="2" input="SourceAlpha" />
+                                                <feGaussianBlur stdDeviation="2" result="blur" />
+                                                <feFlood flood-opacity="0.078" />
+                                                <feComposite operator="in" in2="blur" />
+                                                <feComposite in="SourceGraphic" />
+                                            </filter>
+                                        </defs>
+                                        <g transform="matrix(1, 0, 0, 1, 0, 0)"
+                                           filter="url(#event_list_FILL1_wght100_GRAD0_opsz24)">
+                                            <path id="event_list_FILL1_wght100_GRAD0_opsz24-2"
+                                                  data-name="event_list_FILL1_wght100_GRAD0_opsz24"
+                                                  d="M147.862-766.759V-774.9H156v8.138ZM132-770.345v-.966h11.034v.966Zm15.862-9.517V-788H156v8.138ZM132-783.448v-.965h11.034v.965Z"
+                                                  transform="translate(-126 792)" fill="currentColor" />
+                                        </g>
+                                    </svg>
+                                </div>
+
+                                <div class="title">
+                                    دوراتي
+                                </div>
                             </a>
                         </li>
 
-                        <li>
-                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                <a onclick="this.parentNode.submit();" class="dropdown-item">
-                                    <i class="fa-solid fa-right-from-bracket"></i>
-                                    <span>تسجيل الخروج</span>
-                                </a>
-                            </form>
-                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="MyCourses" asp-action="Sessions" class="sidebar-item">
+                                <div class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         width="36" height="39.584" viewBox="0 0 36 39.584">
+                                        <defs>
+                                            <filter id="date_range_FILL1_wght100_GRAD0_opsz24" x="0" y="0" width="36"
+                                                    height="39.584" filterUnits="userSpaceOnUse">
+                                                <feOffset dy="2" input="SourceAlpha" />
+                                                <feGaussianBlur stdDeviation="2" result="blur" />
+                                                <feFlood flood-opacity="0.078" />
+                                                <feComposite operator="in" in2="blur" />
+                                                <feComposite in="SourceGraphic" />
+                                            </filter>
+                                        </defs>
+                                        <g transform="matrix(1, 0, 0, 1, 0, 0)"
+                                           filter="url(#date_range_FILL1_wght100_GRAD0_opsz24)">
+                                            <path id="date_range_FILL1_wght100_GRAD0_opsz24-2"
+                                                  data-name="date_range_FILL1_wght100_GRAD0_opsz24"
+                                                  d="M177.766-823.091a1.045,1.045,0,0,1-.76-.331,1.045,1.045,0,0,1-.331-.76,1.045,1.045,0,0,1,.331-.76,1.045,1.045,0,0,1,.76-.331,1.045,1.045,0,0,1,.76.331,1.045,1.045,0,0,1,.331.76,1.045,1.045,0,0,1-.331.76A1.045,1.045,0,0,1,177.766-823.091Zm6.234,0a1.045,1.045,0,0,1-.76-.331,1.045,1.045,0,0,1-.331-.76,1.045,1.045,0,0,1,.331-.76,1.045,1.045,0,0,1,.76-.331,1.045,1.045,0,0,1,.76.331,1.045,1.045,0,0,1,.331.76,1.045,1.045,0,0,1-.331.76A1.045,1.045,0,0,1,184-823.091Zm6.234,0a1.045,1.045,0,0,1-.76-.331,1.045,1.045,0,0,1-.331-.76,1.045,1.045,0,0,1,.331-.76,1.045,1.045,0,0,1,.76-.331,1.045,1.045,0,0,1,.76.331,1.045,1.045,0,0,1,.331.76,1.045,1.045,0,0,1-.331.76A1.045,1.045,0,0,1,190.234-823.091ZM172-812.416v-24h5.455V-840H178.7v3.584h10.753V-840h1.091v3.584H196v24Zm1.091-1.091h21.818v-14.338H173.091Z"
+                                                  transform="translate(-166 844)" fill="currentColor" />
+                                        </g>
+                                    </svg>
+                                </div>
+
+                                <div class="title">
+                                    مواعيدي
+                                </div>
+                            </a>
+                        </li
                     </ul>
                 </div>
 
+
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a asp-controller="MyCourses" asp-action="Index" class="sidebar-item">
+                        <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="sidebar-item">
                             <div class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                     width="36" height="33.241" viewBox="0 0 36 33.241">
-                                    <defs>
-                                        <filter id="event_list_FILL1_wght100_GRAD0_opsz24" x="0" y="0" width="36"
-                                                height="33.241" filterUnits="userSpaceOnUse">
-                                            <feOffset dy="2" input="SourceAlpha" />
-                                            <feGaussianBlur stdDeviation="2" result="blur" />
-                                            <feFlood flood-opacity="0.078" />
-                                            <feComposite operator="in" in2="blur" />
-                                            <feComposite in="SourceGraphic" />
-                                        </filter>
-                                    </defs>
-                                    <g transform="matrix(1, 0, 0, 1, 0, 0)"
-                                       filter="url(#event_list_FILL1_wght100_GRAD0_opsz24)">
-                                        <path id="event_list_FILL1_wght100_GRAD0_opsz24-2"
-                                              data-name="event_list_FILL1_wght100_GRAD0_opsz24"
-                                              d="M147.862-766.759V-774.9H156v8.138ZM132-770.345v-.966h11.034v.966Zm15.862-9.517V-788H156v8.138ZM132-783.448v-.965h11.034v.965Z"
-                                              transform="translate(-126 792)" fill="currentColor" />
-                                    </g>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 -960 960 960" width="36">
+                                    <path fill="currentColor" d="M680-280q25 0 42.5-17.5T740-340q0-25-17.5-42.5T680-400q-25 0-42.5 17.5T620-340q0 25 17.5 42.5T680-280Zm0 120q31.769 0 57.385-14.115 25.615-14.116 42.384-38.116Q757-226 732-233q-25-7-52-7t-52 7q-25 7-47.769 20.769 16.769 24 42.384 38.116Q648.231-160 680-160Zm-200 38.462q-120.539-35.769-200.269-146.039Q200-377.846 200-516v-216.308l280-104.615 280 104.615v226.231q-9-3.385-19.769-6.039Q729.462-514.769 720-517v-187.769L480-794l-240 89.231V-516q0 59.308 17.5 113.615 17.5 54.308 47.692 99.885 30.192 45.577 71.423 79.654t87.923 51.923l2.308-.769q4.846 12 12.077 23.307 7.231 11.308 16.385 21.231-4.077 1.539-7.654 2.808T480-121.538ZM680-120q-66.846 0-113.423-46.577T520-280q0-66.846 46.577-113.423T680-440q66.846 0 113.423 46.577T840-280q0 66.846-46.577 113.423T680-120ZM480-482.462Z" />
                                 </svg>
                             </div>
 
                             <div class="title">
-                                دوراتي
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a asp-controller="MyCourses" asp-action="Sessions" class="sidebar-item">
-                            <div class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                     width="36" height="39.584" viewBox="0 0 36 39.584">
-                                    <defs>
-                                        <filter id="date_range_FILL1_wght100_GRAD0_opsz24" x="0" y="0" width="36"
-                                                height="39.584" filterUnits="userSpaceOnUse">
-                                            <feOffset dy="2" input="SourceAlpha" />
-                                            <feGaussianBlur stdDeviation="2" result="blur" />
-                                            <feFlood flood-opacity="0.078" />
-                                            <feComposite operator="in" in2="blur" />
-                                            <feComposite in="SourceGraphic" />
-                                        </filter>
-                                    </defs>
-                                    <g transform="matrix(1, 0, 0, 1, 0, 0)"
-                                       filter="url(#date_range_FILL1_wght100_GRAD0_opsz24)">
-                                        <path id="date_range_FILL1_wght100_GRAD0_opsz24-2"
-                                              data-name="date_range_FILL1_wght100_GRAD0_opsz24"
-                                              d="M177.766-823.091a1.045,1.045,0,0,1-.76-.331,1.045,1.045,0,0,1-.331-.76,1.045,1.045,0,0,1,.331-.76,1.045,1.045,0,0,1,.76-.331,1.045,1.045,0,0,1,.76.331,1.045,1.045,0,0,1,.331.76,1.045,1.045,0,0,1-.331.76A1.045,1.045,0,0,1,177.766-823.091Zm6.234,0a1.045,1.045,0,0,1-.76-.331,1.045,1.045,0,0,1-.331-.76,1.045,1.045,0,0,1,.331-.76,1.045,1.045,0,0,1,.76-.331,1.045,1.045,0,0,1,.76.331,1.045,1.045,0,0,1,.331.76,1.045,1.045,0,0,1-.331.76A1.045,1.045,0,0,1,184-823.091Zm6.234,0a1.045,1.045,0,0,1-.76-.331,1.045,1.045,0,0,1-.331-.76,1.045,1.045,0,0,1,.331-.76,1.045,1.045,0,0,1,.76-.331,1.045,1.045,0,0,1,.76.331,1.045,1.045,0,0,1,.331.76,1.045,1.045,0,0,1-.331.76A1.045,1.045,0,0,1,190.234-823.091ZM172-812.416v-24h5.455V-840H178.7v3.584h10.753V-840h1.091v3.584H196v24Zm1.091-1.091h21.818v-14.338H173.091Z"
-                                              transform="translate(-166 844)" fill="currentColor" />
-                                    </g>
-                                </svg>
-                            </div>
-
-                            <div class="title">
-                                مواعيدي
+                                لوحة التحكم
                             </div>
                         </a>
                     </li>
@@ -134,7 +153,7 @@
 
         <div class="page-wrapper">
             @await Html.PartialAsync("_NavbarPartial")
-    
+
             @RenderBody()
 
             <footer class="footer text-bg-dark text-center text-md-start">
@@ -145,7 +164,7 @@
 
                             <ul class="nav flex-column align-items-center align-items-md-start">
                                 <li class="nav-item">
-                                    <a asp-area ="" asp-controller="Home" asp-action="Index" class="nav-link white">الصفحة الرئيسية</a>
+                                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link white">الصفحة الرئيسية</a>
                                 </li>
 
                                 <li class="nav-item">
