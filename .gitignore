@@ -1,2 +1,5 @@
 KorsatkoApp/bin/**
 KorsatkoApp/obj/**
+.vs/Korsatko/DesignTimeBuild/**
+.vs/Korsatko/FileContentIndex/**
+.vs/v17/**
