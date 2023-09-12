@@ -3,17 +3,24 @@ using KorsatkoApp.Areas.Admin.Models;
 using KorsatkoApp.Data;
 using KorsatkoApp.Models;
 using KorsatkoApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Rotativa.AspNetCore;
+using NToastNotify;
 
 namespace KorsatkoApp.Controllers {
     public class HomeController : Controller {
 
 		private readonly ApplicationDbContext _context;
+		private readonly UserManager<Student> _userManager;
+        private readonly IToastNotification _toastNotification;
 
-        public HomeController(ApplicationDbContext context) {
+
+        public HomeController(ApplicationDbContext context, UserManager<Student> userManager, IToastNotification toastNotification) {
             _context = context;
+			_toastNotification= toastNotification;
+			_userManager = userManager;
         }
  
         public async Task<IActionResult> Index() {
@@ -25,6 +32,7 @@ namespace KorsatkoApp.Controllers {
 			};
             return View(model);
         }
+		[Authorize]
         public async Task<IActionResult> CourseDetails(int? id) {
 			if (id == 0 || _context.Instructors == null) {
 				return NotFound();

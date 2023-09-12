@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Data;
+using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Office2013.Word;
+using KorsatkoApp.Areas.Admin.Models;
+using KorsatkoApp.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using KorsatkoApp.Data;
-using KorsatkoApp.Models;
 using NToastNotify;
-using KorsatkoApp.Areas.Admin.Models;
 
 namespace KorsatkoApp.Areas.Admin.Controllers {
 	[Area("Admin")]
@@ -74,7 +72,7 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
 		}
 
 		// GET: Admin/Instructors/Edit/5
-		public async Task<IActionResult> Edit(int? id) {	
+		public async Task<IActionResult> Edit(int? id) {
 			if (id == null || _context.Instructors == null) {
 				return NotFound();
 			}
@@ -150,6 +148,42 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
 			await _context.SaveChangesAsync();
 			toastNotification.AddSuccessToastMessage("تم حذف البيانات بنجاح");// Basmalla & Rewan : notification
 			return RedirectToAction(nameof(Index));
+		}
+
+		[HttpGet]
+		public async Task<FileResult> ExportInExcel() {
+			var instrctours = await _context.Instructors.ToListAsync();
+			var fileName = "المدربين.xlsx";
+			return GenerateExcel(fileName, instrctours);
+		}
+
+		private FileResult GenerateExcel(string fileName,IEnumerable<Instructor> instructors) {
+			DataTable dataTable= new DataTable("Instructors");
+			dataTable.Columns.AddRange(new DataColumn[] {
+				new DataColumn("Id"),
+				new DataColumn("الاسم بالكامل"),
+				new DataColumn("البريد الإلكتروني"),
+				new DataColumn("النوع"),
+				new DataColumn("رقم الهاتف"),
+				new DataColumn("المؤهلات"),
+				new DataColumn("الرقم القومي"),
+				new DataColumn("سنوات الخبرة")
+			});
+			foreach(var instructor in instructors) {
+				dataTable.Rows.Add(instructor.Id,instructor.FullName
+					,instructor.Email,instructor.Gender
+					,instructor.PhoneNumber,instructor.Qualifications
+					,instructor.NationalId,instructor.ExperienceYears);
+			}
+			using(XLWorkbook wb = new XLWorkbook()) {
+				wb.Worksheets.Add(dataTable);
+				using(MemoryStream stream = new MemoryStream()) {
+					wb.SaveAs(stream);
+					return File(stream.ToArray(),
+					 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+					 fileName);
+				}
+			}
 		}
 
 		private bool InstructorExists(int id) {

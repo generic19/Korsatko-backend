@@ -1,7 +1,7 @@
 ﻿@model Student
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "إضافة طالب";
 }
 
 <section class="container content-header mb-2">
@@ -52,7 +52,7 @@
                     <div class="form-group col-12 col-sm-6 mt-2">
                         <label for="gender" class="form-label">النوع</label>
 
-                        <select asp-for="Gender" name="gender" id="gender" class="form-select">
+                        <select asp-for="Gender" name="gender" id="gender" class="form-control search-select">
                             <option selected disabled>إختر النوع</option>
                             <option value="m">ذكر</option>
                             <option value="f">أنثى</option>

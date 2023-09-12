@@ -79,8 +79,11 @@ namespace KorsatkoApp.Areas.Identity.Pages.Account {
 			public char Gender { get; set; }
 			[Display(Name = "رقم الهاتف")]
 			public string PhoneNumber { get; set; }
+
 			[DisplayName("تاريخ الميلاد")]
-			[Required(ErrorMessage = "يجب ادخال تاريخ الميلاد")]
+            [DataType(DataType.Date)]
+            [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+            [Required(ErrorMessage = "يجب ادخال تاريخ الميلاد")]
 			public DateTime DateOfBirth { get; set; }
 
 

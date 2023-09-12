@@ -6,6 +6,11 @@
 
 @{
     var student = (await UserManager.FindByEmailAsync(User.Identity?.Name!));
+    var profileHref = student.Gender switch {
+        'm' => Href("~/website/img/profile/1.jpg"),
+        'f' => Href("~/website/img/profile/2.jpg"),
+        _ => Href("~/website/img/profile/1.jpg")
+    };
 }
 
 <!doctype html>
@@ -40,33 +45,32 @@
         <div class="sidebar-wrapper">
             <div class="sidebar justify-content-sm-between">
                 <div class="d-flex flex-row-reverse flex-sm-column">
-                    <div class="profile">
-                        <button type="button" data-bs-toggle="dropdown">
-                            <img src="~/website/img/profile/1.jpg" alt="Profile Picture">
-                        </button>
-                        <ul class="dropdown-menu border-0 shadow-sm">
-                            <li>
-                                <div class="dropdown-header rounded-top">@student?.FullName</div>
-                            </li>
+                <div class="profile">
+                    <button type="button" data-bs-toggle="dropdown">
+                        <img src="@profileHref" alt="Profile Picture">
+                    </button>
+                    <ul class="dropdown-menu border-0 shadow-sm">
+                        <li>
+                            <div class="dropdown-header rounded-top">@student?.FullName</div>
+                        </li>
 
-                            <li>
-                                <a asp-controller="MyProfile" class="dropdown-item">
-                                    <i class="fa-solid fa-user"></i>
-                                    <span>صفحتي الشخصية</span>
+                        <li>
+                            <a asp-area="" asp-controller="MyProfile" asp-action="Index" class="dropdown-item">
+                                <i class="fa-solid fa-user"></i>
+                                <span>صفحتي الشخصية</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <a onclick="this.parentNode.submit();" class="dropdown-item" style="cursor:pointer">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                    <span>تسجيل الخروج</span>
                                 </a>
-                            </li>
-
-                            <li>
-                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                    <a onclick="this.parentNode.submit();" class="dropdown-item">
-                                        <i class="fa-solid fa-right-from-bracket"></i>
-                                        <span>تسجيل الخروج</span>
-                                    </a>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-
+                            </form>
+                        </li>
+                    </ul>
+                </div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a asp-controller="MyCourses" asp-action="Index" class="sidebar-item">
@@ -223,7 +227,7 @@
                         </div>
                     </div>
 
-                    <div class="text-center py-2 copy-notice">
+                    <div class="text-center my-2 copy-notice">
                         حقوق الطبع والنشر © 2023 Korsatko. جميع الحقوق محفوظة.
                     </div>
                 </div>

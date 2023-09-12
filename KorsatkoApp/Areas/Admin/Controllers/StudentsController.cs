@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
-using Rotativa.AspNetCore;
 
 namespace KorsatkoApp.Areas.Admin.Controllers {
 
@@ -21,14 +20,7 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
             var Users = _userManager.Users.ToList();
             return View(Users);
         }    
-        public IActionResult Print() {
-            var Users = _userManager.Users.ToList();
-            var report = new ViewAsPdf("Print", Users) {
-                PageMargins = { Left = 20, Bottom = 20, Right = 20, Top = 20 },
-            };
-            return report;
-        }
-
+      
         public async Task<IActionResult> Details(string? id) {
             if (id == null || _userManager.Users == null) {
                 return NotFound();

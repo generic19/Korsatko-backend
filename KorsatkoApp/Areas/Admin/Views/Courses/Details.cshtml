@@ -23,7 +23,7 @@
                         @Html.DisplayNameFor(model => model.Description)
                     </dt>
                     <dd class="col-lg-10">
-                        @Html.DisplayFor(model => model.Description)
+                        @Html.Raw(Model.Description)
                     </dd>
                     <dt class="col-lg-3">
                         @Html.DisplayNameFor(model => model.Prerequisites)
@@ -32,7 +32,7 @@
                         @Html.DisplayFor(model => model.Prerequisites)
                     </dd>
                     <dd class="col-lg-10">
-                        
+
                     </dd>
                     <dt class="col-lg-3">
                         @Html.DisplayNameFor(model => model.Price)
@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        
+
     </div>
 
     <div class="card-footer">

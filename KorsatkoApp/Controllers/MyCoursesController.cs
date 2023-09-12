@@ -1,9 +1,11 @@
 ﻿using KorsatkoApp.Areas.Admin.Models;
 using KorsatkoApp.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace KorsatkoApp.Controllers {
+	[Authorize]
 	public class MyCoursesController : Controller {
 		private readonly ApplicationDbContext _context;
 

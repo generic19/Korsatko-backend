@@ -18,6 +18,7 @@
 					   placeholder="بحث">
 			</div>
 		</div>
+		<a asp-action="ExportInExcel">طباعة فايل إكسيل</a>
 
 		<table id="datatable" class="table table-hover">
 			<thead class="thead-light">
@@ -63,6 +64,17 @@
 				searching: true,
 				ordering: true,
 				autoWidth: false,
+				columnDefs: [
+					{
+						targets: 1,
+						render: function (data, type, row) {
+							if (type === 'display') {
+								return '<div style="height:80px;overflow-y:scroll">' + data + '</div>';
+							}
+							return data;
+						}
+					}
+				],
 				responsive: true,
 				serverSide: false,
 				initComplete: function () {
@@ -87,6 +99,7 @@
 					]);
 				},
 			});
+
 
 
 		$("#search").on("input", (e) => {

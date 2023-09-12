@@ -42,7 +42,7 @@
                 <div class="hero-call-to-action">
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <a asp-controller="MyCourses" class="btn bg-primary-gradient glow-on-hover">
+                        <a asp-area="" asp-action="Courses" asp-controller="Home" class="btn bg-primary-gradient glow-on-hover">
                             ابدا مشوارك الإحترافي
                         </a>
                     }

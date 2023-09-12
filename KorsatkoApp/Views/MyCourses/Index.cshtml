@@ -45,7 +45,7 @@
 								أنت غير مشترك في أي دورات.
 							</div>
 
-							<a href="#" class="btn text-white bg-primary-gradient glow-on-hover mb-3">
+							<a asp-area="" asp-controller="Home" asp-action="Courses" class="btn text-white bg-primary-gradient glow-on-hover mb-3">
 								اشترك الآن
 							</a>
 						</div>
@@ -60,7 +60,11 @@
 								<div class="card-body">
 									<div class="d-flex flex-column flex-sm-row">
 										<div class="my-3 mx-auto mx-sm-3">
-											<img src="@(item?.session?.course?.Picture ?? Href("~/website/img/tracks/backend.svg"))" alt="@item?.session?.course?.Name">
+											@if (item.session.course.Picture == "" || item.session.course.Picture == null) {
+												<img src="~/website/img/tracks/backend.svg" alt="@item.session.course.Name">
+											} else {
+												<img src="~/Uploads/@item.session.course.Picture" alt="@item.session.course.Name">
+											}
 										</div>
 
 										<div class="px-3 my-auto text-center text-sm-start">

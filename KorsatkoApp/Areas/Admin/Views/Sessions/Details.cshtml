@@ -86,3 +86,64 @@
         </div>
     </div>
 </div>
+
+<h2 class="arabic">الطلاب المسجلين في الموعد</h2>
+
+
+<!-- Main content -->
+<section class="content pb-5">
+    <div class="container">
+        <div class="card">
+            <div class="card-body arabic">
+                <div class="row">
+                    <div class="col-12 col-sm-8" id="tableButtons"></div>
+
+                    <div class="col-12 col-sm-4">
+                        <input type="text" id="search" class="form-control d-inline w-100 w-sm-auto float-left"
+                               placeholder="بحث">
+                    </div>
+                </div>
+
+                <table id="datatable" class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>الاسم بالكامل</th>
+                            <th>الرقم القومي</th>
+                            <th>تاريخ الميلاد</th>
+                            <th>النوع</th>
+                            <th>البريد الالكتروني</th>
+                            <th>رقم الهاتف</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Enrollments) {
+
+                            <tr>
+                                <td>@item.student.FullName</td>
+                                <td>@item.student.NationalId</td>
+                                <td>@item.student.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                                @if (item.student.Gender == 'f') {
+                                    <td>انثى</td>
+                                } else {
+                                    <td>ذكر</td>
+                                }
+                                <td>@item.student.Email</td>
+                                <td>@item.student.PhoneNumber</td>
+                                <td class="text-nowrap">
+                                    <a href="#" class="btn icon-btn-sm btn-outline-primary m-1">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="btn icon-btn-sm btn-outline-danger m-1">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
