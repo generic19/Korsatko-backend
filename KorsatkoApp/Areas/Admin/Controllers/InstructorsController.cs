@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Office2013.Word;
 using KorsatkoApp.Areas.Admin.Models;
 using KorsatkoApp.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
 
-namespace KorsatkoApp.Areas.Admin.Controllers {
+namespace KorsatkoApp.Areas.Admin.Controllers
+{
 	[Area("Admin")]
-	public class InstructorsController : Controller {
-
+	public class InstructorsController : Controller
+	{
 		private readonly ApplicationDbContext _context;
 		private readonly IToastNotification toastNotification;// injecting toastNotification : basmalla & Rewan
 		public InstructorsController(ApplicationDbContext context, IToastNotification toastNotification) {
