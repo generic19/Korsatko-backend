@@ -21,9 +21,12 @@ body {
     min-height: 100vh;
 }
 
+.content-wrapper .fading-bg {
+    padding: 0 10px;
+}
+
 .content-wrapper .fading-bg:first-child {
-    background-image: linear-gradient(rgba(255, 255, 255, 0),
-            rgba(255, 255, 255, 0.73));
+    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.73));
 }
 
 .content-wrapper .fading-bg:not(:first-child) {
