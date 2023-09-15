@@ -1,31 +1,10 @@
 ﻿@model Instructor
 
 @{
-	ViewData["Title"] = "إضافة مدرب";
+	Layout = "_HeaderAdminLayout";
 }
 
-<section class="container content-header mb-2">
-	<div class="px-3 px-sm-2 px-lg-3">
-		<div class="row mt-3 mb-1">
-			<h1 class="arabic">إضافة مدرب</h1>
-		</div>
 
-		<div class="row">
-			<ol class="breadcrumb arabic sm">
-				<li class="breadcrumb-item">
-					<a asp-area="Admin" asp-controller="home" asp-action="Index">الصفحة الرئيسية</a>
-				</li>
-				<li class="breadcrumb-item">
-					<a asp-area="Admin" asp-controller="courses" asp-action="Index">المدربين</a>
-				</li>
-				<li class="breadcrumb-item">
-					مدرب جديد
-				</li>
-			</ol>
-		</div>
-	</div>
-
-</section>
 <section class="content pb-5">
 	<div class="container">
 		<form method="post" asp-action="Create" class="card">
@@ -127,15 +106,6 @@
 </section>
 
 @section Scripts {
-	<!-- jQuery -->
-	<script src="/plugins/jquery/jquery.min.js"></script>
-	<!-- Bootstrap 4 -->
-	<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- overlayScrollbars -->
-	<script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-	<!-- AdminLTE App -->
-	<script src="/plugins/adminlte/js/adminlte.min.js"></script>
-
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}

@@ -17,7 +17,7 @@
                 <h4>الدورات التدريبية</h4>
             </div>
 
-            <div class="cards-container mb-5 align-items-stretch">
+            <div class="cards-container mb-5">
                 @foreach (var c in Model)
                 {
                     <div class="card card-fixed">
@@ -47,7 +47,7 @@
                                 </p>
                             </div>
 
-                            <a asp-action="CourseDetails" asp-route-id="@c.Id" class="btn btn-outline-primary">
+                            <a asp-action="CourseDetails" asp-route-id="@c.Id" class="btn btn-primary">
                                 اشترك
                             </a>
                         </div>

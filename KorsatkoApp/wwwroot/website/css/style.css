@@ -122,8 +122,8 @@ body {
 }
 
 .card-fixed {
+    
     min-height: 250px;
-    margin: 10px;
 }
 
     .card-fixed.small {
@@ -167,35 +167,37 @@ a.card-fixed {
 
 .cards-container {
     display: flex;
-    margin: -10px;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
 }
 
 @media screen and (max-width: 576px) {
     .card-fixed {
-        width: auto;
+        max-width: 400px;
     }
 
     .card-image img {
         width: 100%;
+        height: 100%;
+        max-height: 300px;
         object-fit: contain;
     }
 
     .card-image {
-        height: 250px;
+        height: 100%;
     }
 }
 
 @media screen and (min-width: 576px) {
     .card-fixed {
-        width: 45%;
+        width: calc(50% - 10px);
     }
 
     .cards-container {
         display: flex;
         flex-direction: row;
-        align-items: start;
+        align-items: stretch;
         flex-wrap: wrap;
     }
 
@@ -470,8 +472,8 @@ a.sidebar-item {
 
 @media screen and (max-width: 576px) {
     :root {
-        --sidebar-width: 50px;
-        --profile-width: 38px;
+        --sidebar-width: 60px;
+        --profile-width: 40px;
     }
 
     .sidebar-wrapper + .page-wrapper {
@@ -774,4 +776,132 @@ a.unstyled:link, a.unstyled:hover, a.unstyled:active, a.unstyled:visited {
     width: calc(var(--profile-width) * 2);
     height: calc(var(--profile-width) * 2);
     border-radius: var(--profile-width);
+}
+
+/* Instructor Cards */
+
+.instructor-card {
+    width: 100%;
+    max-width: 350px;
+}
+
+.instructor-card .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.instructor-image img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+.instructor-info {
+    flex-grow: 1;
+    margin: 5px;
+}
+
+.instructor-info h3 {
+    margin: 25px 0 10px;
+}
+
+.instructor-info h5 {
+    margin: 20px 0 5px;
+}
+
+.instructor-card .btn {
+    display: block;
+}
+
+.instructor-info .header > .btn {
+    display: none;
+}
+
+@media screen and (min-width: 576px) and (max-width: 992px) {
+    .instructor-card {
+        max-width: none;
+    }
+
+    .instructor-card .card-body {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .instructor-info {
+        margin-right: 10px;
+    }
+
+    .instructor-image img {
+        width: 200px;
+    }
+
+    .instructor-card .btn {
+        display: inline;
+    }
+
+    .instructor-info h3 {
+        margin: 0;
+    }
+
+    .instructor-card .card-body > .btn {
+        display: none;
+    }
+
+    .instructor-info .header > .btn {
+        display: inline;
+    }
+
+    .instructor-info .header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 5px;
+        gap: 10px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .instructor-card {
+        max-width: none;
+        width: calc(50% - 10px);
+    }
+
+    .instructor-card .card-body {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .instructor-info {
+        flex-grow: 1;
+        margin-right: 10px;
+    }
+
+    .instructor-image img {
+        width: 200px;
+    }
+
+    .instructor-card .btn {
+        display: inline;
+    }
+
+    .instructor-info h3 {
+        margin: 0;
+        margin-left: 10px;
+    }
+
+    .instructor-card .card-body > .btn {
+        display: none;
+    }
+
+    .instructor-info .header > .btn {
+        display: inline;
+    }
+
+    .instructor-info .header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 5px;
+        gap: 10px;
+    }
 }

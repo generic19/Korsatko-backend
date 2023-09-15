@@ -8,17 +8,31 @@
 <div class="card">
 	<div class="card-body arabic">
 		<div class="row">
-			<div class="col-12 col-sm-8" id="tableButtons">
-				<a class="btn btn-primary" asp-controller="@controller" asp-action="Create">إضافة</a>
+			<div class="col-12 col-md-6 col-lg-7 col-xl-8 mb-2 d-flex" id="">
+				<a class="btn btn-primary" asp-controller="@controller" asp-action="Create">
+					<span>إضافة</span>
+				</a>
 
+				<div class="d-inline flex-grow-1 flex-md-grow-0 px-1" id="tableButtons">
+
+				</div>
+				
+				<div class="dropdown d-inline">
+					<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+						<span>حفظ</span>
+					</button>
+					<div class="dropdown-menu dropdown-menu-left" id="saveDropdown">
+						<a asp-action="ExportInExcel" class="dropdown-item">ملف Excel</a>
+					</div>
+				</div>
+				
 			</div>
 
-			<div class="col-12 col-sm-4">
-				<input type="text" id="search" class="form-control d-inline w-100 w-sm-auto float-left"
-					   placeholder="بحث">
+			<div class="col-12 col-md-6 col-lg-5 col-xl-4 d-flex gx-2 mb-2" id="tableButtonsEnd">
+				<input type="text" id="search" class="form-control d-inline w-100 w-md-auto mr-2"
+					   placeholder="بحث" />
 			</div>
 		</div>
-		<a asp-action="ExportInExcel">طباعة فايل إكسيل</a>
 
 		<table id="datatable" class="table table-hover">
 			<thead class="thead-light">
@@ -64,39 +78,73 @@
 				searching: true,
 				ordering: true,
 				autoWidth: false,
-				columnDefs: [
-					{
-						targets: 1,
-						render: function (data, type, row) {
-							if (type === 'display') {
-								return '<div style="height:80px;overflow-y:scroll">' + data + '</div>';
-							}
-							return data;
-						}
-					}
-				],
 				responsive: true,
 				serverSide: false,
 				initComplete: function () {
-					const api = this.api();
-
-					const addButtons = buttons => {
-						new $.fn.dataTable.Buttons(api, { buttons });
-						api.buttons().container().children().appendTo('#tableButtons');
-					}
-
-					addButtons([
+					const buttonsOptions = [
 						{
 							extend: "colvis",
 							columns: "th:not(:last-child)",
-							className: "mr-1",
+							className: "",
 						},
 						{
-							extend: 'print',
-							text: 'طباعة',
+							extend: "print",
+							text: "طباعة",
 							className: "",
-						}
-					]);
+
+							customize: function (_window) {
+								$(_window.document.head)
+									.append(`<link rel="stylesheet" href="@Href("~/admin/plugins/adminlte/css/adminlte-rtl.css")">`);
+
+								const body = $(_window.document.body)
+									.css("direction", "rtl")
+									.addClass("px-4");
+
+
+								let h1 = _window.document.body.querySelector("h1");
+								let title = h1.innerText;
+								h1.remove();
+
+								title = "جدول " + title.substring(0, title.indexOf(" - "));
+
+
+								let table = body.find("table").detach();
+								table.removeClass().addClass("table table-bordered");
+
+								table.find("th:last-child").remove();
+								table.find("td:last-child").remove();
+
+								table.find("th")
+									.css("color", "white")
+									.css("background-image", "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjMLFy+A8AAwIBrms8urkAAAAASUVORK5CYII=)")
+									.css("background-size", "stretch");
+
+								body.append(`<h1 class="pt-5 pb-3">${title}</h1>`);
+								body.append(table);
+							}
+						},
+						{
+							extend: "csv",
+							text: "ملف CSV",
+							charset: "UTF-8",
+							bom: true,
+						},
+						"searchPanes",
+					];
+
+
+					const api = this.api();
+
+
+					new $.fn.dataTable.Buttons(api, { buttons: buttonsOptions });
+					const buttons = api.buttons().container().children();
+
+					buttons.eq(2).removeClass().addClass("dropdown-item");
+
+					buttons.eq(0).appendTo("#tableButtonsEnd");
+					buttons.eq(1).appendTo("#tableButtons");
+					buttons.slice(2, 4).appendTo("#saveDropdown");
+					buttons.eq(4).appendTo("#tableButtons");
 				},
 			});
 
@@ -107,6 +155,14 @@
 			t.column(0).search(q).draw();
 		});
 
+
+		$("td.scrollable")
+			.overlayScrollbars({
+				className: "os-theme-dark",
+			})
 	</script>
+
+
+	@await RenderSectionAsync("Scripts", required: false)
 }
 

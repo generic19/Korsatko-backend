@@ -187,3 +187,9 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td.dtr-control:before
     right: initial !important;
     left: 30px !important;
 }
+
+td.scrollable {
+    max-height: 80px;
+    overflow: auto;
+    display: block;
+}
