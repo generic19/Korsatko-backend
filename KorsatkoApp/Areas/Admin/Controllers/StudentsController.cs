@@ -1,12 +1,15 @@
-﻿using KorsatkoApp.Areas.Admin.Models;
+﻿using ClosedXML.Excel;
+using System.Data;
+using KorsatkoApp.Areas.Admin.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
 
 namespace KorsatkoApp.Areas.Admin.Controllers {
-
-    [Area("Admin")]
+	[Authorize(Roles = "Admin")]
+	[Area("Admin")]
     public class StudentsController : Controller {
         private readonly UserManager<Student> _userManager;
         private readonly IToastNotification _toastNotification;
@@ -106,7 +109,40 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
             //  await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        private bool StudentExists(string id) {
+
+		public async Task<FileResult> ExportInExcel() {
+			var students = await _userManager.Users.ToListAsync();
+			var fileName = "الطلاب.xlsx";
+			return GenerateExcel(fileName, students);
+		}
+		private FileResult GenerateExcel(string fileName, IEnumerable<Student> students) {
+			DataTable dataTable = new DataTable("الطلاب");
+			dataTable.Columns.AddRange(new DataColumn[] {
+				new DataColumn("Id"),
+				new DataColumn("الاسم بالكامل"),
+				new DataColumn("النوع"),
+				new DataColumn("تاريخ الميلاد"),
+				new DataColumn("البريد الإلكتروني"),
+				new DataColumn("الرقم القومي"),
+				new DataColumn("تاريخ الإضافة")
+			});
+			foreach (var student in students) {
+				dataTable.Rows.Add(student.Id, student.FullName
+					, student.Gender, student.DateOfBirth, student.Email
+				, student.NationalId, student.AddedOn);
+			}
+			using (XLWorkbook wb = new XLWorkbook()) {
+				wb.Worksheets.Add(dataTable);
+				using (MemoryStream stream = new MemoryStream()) {
+					wb.SaveAs(stream);
+					return File(stream.ToArray(),
+					 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+					 fileName);
+				}
+			}
+		}
+
+		private bool StudentExists(string id) {
             return (_userManager.Users?.Any(e => e.Id.Equals(id))).GetValueOrDefault();
         }
     }

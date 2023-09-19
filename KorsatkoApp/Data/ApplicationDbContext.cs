@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using KorsatkoApp.Areas.Admin.ViewModels;
 
 namespace KorsatkoApp.Data
 {
@@ -48,6 +49,8 @@ namespace KorsatkoApp.Data
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<KorsatkoApp.Areas.Admin.ViewModels.UsersViewModel> UsersViewModel { get; set; } = default!;
+        public DbSet<KorsatkoApp.Areas.Admin.ViewModels.SearchViewModel> SearchViewModel { get; set; } = default!;
 
     }
 }

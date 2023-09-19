@@ -47,7 +47,17 @@ namespace KorsatkoApp.Controllers {
 			if (course == null) {
 				return NotFound();
 			}
+			/* find student by user
+			 * can you find him in any enrollment ?
+			 * is this enrollment in this course ?
+			 */
 
+			var student = await _userManager.FindByEmailAsync(User.Identity.Name);
+			var studentId = student.Id;
+			var enrollments = await _context.Enrollments.Where(e=> e.StudentId == studentId && e.session.CourseId==id).ToListAsync();
+			if(enrollments.Count != 0) {
+				ViewBag.enrolledSession = enrollments[0].SessionId;
+			}
 			return View(course);
         }
 

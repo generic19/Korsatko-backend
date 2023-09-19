@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Course>
 
 @{
-    Layout = "_DatatableAdminLayout";
+	Layout = "_DatatableAdminLayout";
 }
 
 @section TableHeader {
@@ -15,32 +15,28 @@
 }
 
 @section TableRows {
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@item.Name</td>
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>@item.Name</td>
+			<td>@Html.Raw(@item.Description)</td>
+			<td>@item.Prerequisites</td>
+			<td>@item.Price</td>
 
-            <td class="scrollable">
-                @Html.Raw(@item.Description)
-            </td>
+			<td class="text-nowrap">
+				<a asp-action="Details" asp-route-id="@item.Id" class="btn icon-btn-sm btn-outline-primary m-1">
+					<i class="fas fa-info"></i>
+				</a>
 
-            <td>@item.Prerequisites</td>
-            <td>@item.Price</td>
+				<a asp-action="Edit" asp-route-id="@item.Id" class="btn icon-btn-sm btn-outline-primary m-1">
+					<i class="fas fa-edit"></i>
+				</a>
 
-            <td class="text-nowrap">
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn icon-btn-sm btn-outline-primary m-1">
-                    <i class="fas fa-info"></i>
-                </a>
+				<a asp-action="Delete" asp-route-id="@item.Id" class="btn icon-btn-sm btn-outline-danger m-1">
+					<i class="fas fa-trash"></i>
+				</a>
 
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn icon-btn-sm btn-outline-primary m-1">
-                    <i class="fas fa-edit"></i>
-                </a>
-
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn icon-btn-sm btn-outline-danger m-1">
-                    <i class="fas fa-trash"></i>
-                </a>
-
-            </td>
-        </tr>
-    }
+			</td>
+		</tr>
+	}
 }

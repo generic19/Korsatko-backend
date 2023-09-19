@@ -4,6 +4,7 @@ using KorsatkoApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KorsatkoApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230911113002_DefaultCredentials")]
+    partial class DefaultCredentials
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +60,7 @@ namespace KorsatkoApp.Data.Migrations
                         new
                         {
                             Id = 123,
-                            AddedOn = new DateTime(2023, 9, 11, 11, 38, 29, 715, DateTimeKind.Local).AddTicks(6811),
+                            AddedOn = new DateTime(2023, 9, 11, 11, 30, 1, 480, DateTimeKind.Local).AddTicks(9681),
                             Description = "C++ Programming Language for Advanced Programmers",
                             Name = "Advanced C++",
                             Prerequisites = "C Course",
@@ -66,7 +69,7 @@ namespace KorsatkoApp.Data.Migrations
                         new
                         {
                             Id = 124,
-                            AddedOn = new DateTime(2023, 9, 11, 11, 38, 29, 715, DateTimeKind.Local).AddTicks(6819),
+                            AddedOn = new DateTime(2023, 9, 11, 11, 30, 1, 480, DateTimeKind.Local).AddTicks(9688),
                             Description = "C Programming Language",
                             Name = "C For Beginners",
                             Prerequisites = "None",

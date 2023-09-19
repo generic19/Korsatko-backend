@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace KorsatkoApp.Controllers {
-	[Authorize]
+	[Authorize(Roles ="User")]
 	public class MyCoursesController : Controller {
 		private readonly ApplicationDbContext _context;
 

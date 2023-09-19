@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,8 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using KorsatkoApp.Areas.Admin.Models;
 using KorsatkoApp.Data;
 using NToastNotify;
+using Microsoft.AspNetCore.Authorization;
+using ClosedXML.Excel;
+using System.Data;
 
 namespace KorsatkoApp.Areas.Admin.Controllers {
+	[Authorize(Roles = "Admin")]
 	[Area("Admin")]
 	public class EnrollmentsController : Controller {
 		private readonly ApplicationDbContext _context;
@@ -20,7 +25,6 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
 			_toastNotification = toastNotification;
 		}
 
-		// GET: Admin/Enrollments
 		public async Task<IActionResult> Index() {
 			var applicationDbContext = _context.Enrollments
 				.Include(e => e.student)
@@ -49,7 +53,6 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
 			return View(enrollment);
 		}
 
-		// GET: Admin/Enrollments/Create
 		public IActionResult Create() {
 			var customValues = new List<SelectListItem>();
 			var sessions = _context.Sessions.Include(e => e.course).Include(e => e.instructor).ToList();
@@ -106,7 +109,6 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
 			return View(enrollment);
 		}
 
-		// GET: Admin/Enrollments/Edit/5
 		public async Task<IActionResult> Edit(string id) {
 			if (id == null || _context.Enrollments == null) {
 				return NotFound();
@@ -148,7 +150,6 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
 			return View(enrollment);
 		}
 
-		// GET: Admin/Enrollments/Delete/5
 		public async Task<IActionResult> Delete(string id) {
 			if (id == null || _context.Enrollments == null) {
 				return NotFound();
@@ -178,10 +179,46 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
 			}
 
 			await _context.SaveChangesAsync();
+		    
             _toastNotification.AddSuccessToastMessage("تم حذف الإشتراك بنجاح");
             return RedirectToAction(nameof(Index));
 		}
+		[HttpGet]
+		public async Task<FileResult> ExportInExcel() {
+			var enrollments = await _context.Enrollments.Include(e => e.student)
+				.Include(s => s.session).ToListAsync();
+			var sessions = _context.Sessions.Include(e => e.course).Include(e => e.instructor).ToList();
+			var fileName = "الاشتراكات.xlsx";
+			return GenerateExcel(fileName, enrollments);
+		}
 
+		private FileResult GenerateExcel(string fileName, IEnumerable<Enrollment> enrollments) {
+			DataTable dataTable = new DataTable("الاشتراكات");
+			dataTable.Columns.AddRange(new DataColumn[] {
+				new DataColumn("Id"),
+				new DataColumn("الطالب"),
+				new DataColumn("الميعاد"),
+				new DataColumn("حالة الدفع"),
+				new DataColumn("تاريخ الإضافة")
+			});
+			foreach (var enrollment in enrollments) {
+				var session = _context.Sessions.FirstOrDefault(e => e.Id == enrollment.SessionId);
+				string sessionName = session.course.Name + " - "
+					+ session.instructor.FullName + " - " + session.Location;
+				dataTable.Rows.Add(enrollment.EnrollmentNumber, enrollment.student.FullName
+					, sessionName, enrollment.PaymentStatus
+					, enrollment.AddedOn);
+			}
+			using (XLWorkbook wb = new XLWorkbook()) {
+				wb.Worksheets.Add(dataTable);
+				using (MemoryStream stream = new MemoryStream()) {
+					wb.SaveAs(stream);
+					return File(stream.ToArray(),
+					 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+					 fileName);
+				}
+			}
+		}
 		private bool EnrollmentExists(string id) {
 			return (_context.Enrollments?.Any(e => e.EnrollmentNumber == id)).GetValueOrDefault();
 		}

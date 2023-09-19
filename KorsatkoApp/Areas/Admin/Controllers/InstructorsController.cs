@@ -1,17 +1,23 @@
-﻿using System.Data;
-using ClosedXML.Excel;
-using KorsatkoApp.Areas.Admin.Models;
-using KorsatkoApp.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using KorsatkoApp.Data;
+using KorsatkoApp.Models;
 using NToastNotify;
+using KorsatkoApp.Areas.Admin.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
+using ClosedXML.Excel;
 
-namespace KorsatkoApp.Areas.Admin.Controllers
-{
+namespace KorsatkoApp.Areas.Admin.Controllers {
+	[Authorize(Roles = "Admin")]
 	[Area("Admin")]
-	public class InstructorsController : Controller
-	{
+	public class InstructorsController : Controller {
+
 		private readonly ApplicationDbContext _context;
 		private readonly IToastNotification toastNotification;// injecting toastNotification : basmalla & Rewan
 		public InstructorsController(ApplicationDbContext context, IToastNotification toastNotification) {
@@ -72,7 +78,7 @@ namespace KorsatkoApp.Areas.Admin.Controllers
 		}
 
 		// GET: Admin/Instructors/Edit/5
-		public async Task<IActionResult> Edit(int? id) {
+		public async Task<IActionResult> Edit(int? id) {	
 			if (id == null || _context.Instructors == null) {
 				return NotFound();
 			}
@@ -156,9 +162,8 @@ namespace KorsatkoApp.Areas.Admin.Controllers
 			var fileName = "المدربين.xlsx";
 			return GenerateExcel(fileName, instrctours);
 		}
-
-		private FileResult GenerateExcel(string fileName,IEnumerable<Instructor> instructors) {
-			DataTable dataTable= new DataTable("Instructors");
+		private FileResult GenerateExcel(string fileName, IEnumerable<Instructor> instructors) {
+			DataTable dataTable = new DataTable("المدربين");
 			dataTable.Columns.AddRange(new DataColumn[] {
 				new DataColumn("Id"),
 				new DataColumn("الاسم بالكامل"),
@@ -169,15 +174,15 @@ namespace KorsatkoApp.Areas.Admin.Controllers
 				new DataColumn("الرقم القومي"),
 				new DataColumn("سنوات الخبرة")
 			});
-			foreach(var instructor in instructors) {
-				dataTable.Rows.Add(instructor.Id,instructor.FullName
-					,instructor.Email,instructor.Gender
-					,instructor.PhoneNumber,instructor.Qualifications
-					,instructor.NationalId,instructor.ExperienceYears);
+			foreach (var instructor in instructors) {
+				dataTable.Rows.Add(instructor.Id, instructor.FullName
+					, instructor.Email, instructor.Gender
+					, instructor.PhoneNumber, instructor.Qualifications
+					, instructor.NationalId, instructor.ExperienceYears);
 			}
-			using(XLWorkbook wb = new XLWorkbook()) {
+			using (XLWorkbook wb = new XLWorkbook()) {
 				wb.Worksheets.Add(dataTable);
-				using(MemoryStream stream = new MemoryStream()) {
+				using (MemoryStream stream = new MemoryStream()) {
 					wb.SaveAs(stream);
 					return File(stream.ToArray(),
 					 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

@@ -4,8 +4,13 @@ using KorsatkoApp.Data;
 using KorsatkoApp.Areas.Admin.Models;
 using NToastNotify;
 using KorsatkoApp.Areas.Admin.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using ClosedXML.Excel;
+using System.Data;
 
 namespace KorsatkoApp.Areas.Admin.Controllers {
+	[Authorize(Roles = "Admin")]
+
 	[Area("Admin")]
 	public class CoursesController : Controller {
 		private readonly ApplicationDbContext _context;
@@ -176,7 +181,38 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
 			}
 			return RedirectToAction(nameof(Index));
 		}
+		[HttpGet]
+		public async Task<FileResult> ExportInExcel() {
+			var courses = await _context.Courses.ToListAsync();
+			var fileName = "الدورات.xlsx";
+			return GenerateExcel(fileName, courses);
+		}
 
+		private FileResult GenerateExcel(string fileName, IEnumerable<Course> courses) {
+			DataTable dataTable = new DataTable("الدورات");
+			dataTable.Columns.AddRange(new DataColumn[] {
+				new DataColumn("Id"),
+				new DataColumn("اسم الكورس"),
+				new DataColumn("محتوى الكورس"),
+				new DataColumn("متطلبات الكورس"),
+				new DataColumn("سعر الكورس"),
+				new DataColumn("تاريخ الإضافة")
+			});
+			foreach (var course in courses) {
+				dataTable.Rows.Add(course.Id, course.Name
+					, course.Description, course.Prerequisites, course.Price
+				, course.AddedOn);
+			}
+			using (XLWorkbook wb = new XLWorkbook()) {
+				wb.Worksheets.Add(dataTable);
+				using (MemoryStream stream = new MemoryStream()) {
+					wb.SaveAs(stream);
+					return File(stream.ToArray(),
+					 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+					 fileName);
+				}
+			}
+		}
 		private bool CourseExists(int id) {
 			return (_context.Courses?.Any(e => e.Id == id)).GetValueOrDefault();
 		}

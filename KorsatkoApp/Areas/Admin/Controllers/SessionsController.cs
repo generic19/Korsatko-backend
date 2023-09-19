@@ -10,9 +10,13 @@ using KorsatkoApp.Models;
 using NToastNotify;
 using NToastNotify;
 using KorsatkoApp.Areas.Admin.Models;
+using Microsoft.AspNetCore.Authorization;
+using ClosedXML.Excel;
+using System.Data;
 
 namespace KorsatkoApp.Areas.Admin.Controllers {
-    [Area("Admin")]
+	[Authorize(Roles = "Admin")]
+	[Area("Admin")]
     public class SessionsController : Controller {
         private readonly ApplicationDbContext _context;
         private readonly IToastNotification _toastNotification;
@@ -142,8 +146,45 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+		public async Task<FileResult> ExportInExcel() {
+			var sessions = await _context.Sessions.Include(s => s.course).Include(s => s.instructor).ToListAsync();
+			var fileName = "المواعيد.xlsx";
+			return GenerateExcel(fileName, sessions);
+		}
 
-        private bool SessionExists(int id) {
+		private FileResult GenerateExcel(string fileName, IEnumerable<Session> sessions) {
+			DataTable dataTable = new DataTable("المواعيد");
+			dataTable.Columns.AddRange(new DataColumn[] {
+				new DataColumn("Id"),
+				new DataColumn("المدرب"),
+				new DataColumn("الكورس"),
+				new DataColumn("المكان"),
+				new DataColumn("تاريخ البداية"),
+				new DataColumn("تاريخ النهاية"),
+				new DataColumn ("معدل السعر"),
+				new DataColumn ("الحد الأقصى"),
+				new DataColumn("ميعاد البداية"),
+				new DataColumn("ميعاد النهاية"),
+				new DataColumn("هل متاح"),
+				new DataColumn("تاريخ الإضافة")
+			});
+			foreach (var session in sessions) {
+				dataTable.Rows.Add(session.Id, session.instructor.FullName, session.course.Name,
+					session.Location, session.StartDate, session.EndDate, session.PriceRate,
+					session.Limit, session.startTime, session.EndTime, session.IsAvailable,
+					session.AddedOn);
+			}
+			using (XLWorkbook wb = new XLWorkbook()) {
+				wb.Worksheets.Add(dataTable);
+				using (MemoryStream stream = new MemoryStream()) {
+					wb.SaveAs(stream);
+					return File(stream.ToArray(),
+					 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+					 fileName);
+				}
+			}
+		}
+		private bool SessionExists(int id) {
             return (_context.Sessions?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }

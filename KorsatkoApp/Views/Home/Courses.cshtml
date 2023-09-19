@@ -17,10 +17,10 @@
                 <h4>الدورات التدريبية</h4>
             </div>
 
-            <div class="cards-container mb-5">
+            <div class="cards-container mb-5 align-items-stretch">
                 @foreach (var c in Model)
                 {
-                    <div class="card card-fixed">
+                    <div class="card card-fixed" style="width: 18rem;">
                         <div class="card-image">
                             @if (c.Picture == "" || c.Picture == null)
                             {
@@ -47,7 +47,7 @@
                                 </p>
                             </div>
 
-                            <a asp-action="CourseDetails" asp-route-id="@c.Id" class="btn btn-primary">
+                            <a asp-action="CourseDetails" asp-route-id="@c.Id" class="btn btn-outline-primary">
                                 اشترك
                             </a>
                         </div>
