@@ -7,119 +7,151 @@
 @inject UserManager<Student> UserManager
 
 @{
-	ViewData["Title"] = "تفاصبل دورة " + Model.Name;
+    ViewData["Title"] = "تفاصبل دورة " + Model.Name;
 }
 
 <div class="content-wrapper">
-	<div class="fading-bg px-2 pt-5 pb-3">
-		<div class="container">
-			<h1 class="mb-5">معلومات عن دورة @Model.Name</h1>
+    <div class="fading-bg px-2 pt-5 pb-3">
+        <div class="container">
+            <h1 class="mb-5">معلومات عن دورة @Model.Name</h1>
 
-			<h2 class="mt-4">عن الدورة التدريبية</h2>
-			@Html.Raw(Model.Description)
+            <h2 class="mt-4">عن الدورة التدريبية</h2>
+            @Html.Raw(Model.Description)
 
-			<h4 class="mt-4">متطلبات الدورة التدريبية</h4>
-			<p>@Model.Prerequisites</p>
-		</div>
-	</div>
+            <h4 class="mt-4">متطلبات الدورة التدريبية</h4>
+            <p>@Model.Prerequisites</p>
+        </div>
+    </div>
 
-	<div class="fading-bg pb-5">
-		<div class="container">
-			<h2 class="">المدربين</h2>
+    <div class="fading-bg pb-5">
+        <div class="container">
+            <h2 class="">المدربين</h2>
 
-			@foreach (var sessionUniqueByInstructor in Model.Sessions.DistinctBy(e => e.instructor)) {
-				var instructor = sessionUniqueByInstructor.instructor;
+            @{
+                var distinctSessions = Model.Sessions
+                    .Where(e => e.instructor != null)
+                    .DistinctBy(e => e.instructor);
+            }
 
-				if (instructor == null) {
-					continue;
-				}
+            @if (distinctSessions.Any())
+            {
+                <div class="cards-container">
+                    @foreach (var session in distinctSessions)
+                    {
+                        var instructor = session.instructor!;
 
+                        <div class="card instructor-card">
+                            <div class="card-body">
+                                <div class="instructor-image">
+                                    <img src="@(instructor.Gender == 'f' ? Href("~/img/female.jpg") : Href("~/img/male.jpg"))"
+                                         alt="Profile" class="rounded">
+                                </div>
 
-				<div class="p-3 bg-white border rounded-3 my-3">
-					<div class="d-flex flex-column flex-sm-row">
-						<div class="d-flex">
-							<img src="@(instructor.Gender == 'f' ? Href("~/img/female.jpg") : Href("~/img/male.jpg"))"
-								 alt="Profile"
-								 class="thumbnail rounded">
+                                <div class="instructor-info">
+                                    <div class="header">
 
-							<div class="d-flex align-items-center">
-								<h4 class="d-sm-none ms-3 mb-0">@instructor.FullName</h4>
-							</div>
-						</div>
+                                        <h3>
+                                            @instructor.FullName
+                                        </h3>
 
-						<div class="ms-1 ms-sm-3 mt-3 mt-sm-0">
-							<h4 class="mt-2 mb-3 d-none d-sm-block">
-								@instructor.FullName
-							</h4>
+                                        <a asp-controller="Home" asp-action="InstructorDetails" asp-route-id="@instructor.Id"
+                                           class="btn btn-outline-primary btn-sm">
 
-							<h5 class="mt-4">مؤهلاته</h5>
-							@Html.Raw(instructor.Qualifications)
-
-							<h5 class="mt-4">سنوات الخبرة</h5>
-							<p>
-								@instructor.ExperienceYears
-							</p>
-
-							<a asp-controller="Home" asp-action="InstructorDetails" asp-route-id="@instructor.Id"
-							   class="btn btn-sm btn-secondary">
-
-								تفاصيل أكثر
-							</a>
-						</div>
-					</div>
-				</div>
-			}
-
-
-			<h2 class="pt-4 pb-4">المواعيد</h2>
-
-			<div class="row">
-				<div class="table-responsive">
-					<table class="table table-head-fixed table-hover" style="min-width: 25rem; overflow-x: scroll">
-						<thead>
-							<tr>
-								<th>المدرب</th>
-								<th>المدة</th>
-								<th>الوقت</th>
-								<th>المكان</th>
-								<th>السعر</th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach (var session in Model.Sessions) {
-								<tr>
-									<td>@session.instructor.FullName</td>
-									<td>
-										من @session.StartDate.ToString("yyyy-MM-dd")
-										<br>
-										إلى @session.EndDate.ToString("yyyy-MM-dd")
-									</td>
-									<td>
-										من @session.startTime.ToString("h:mm") @(session.startTime.ToString("tt") == "AM" ? "صباحاً" : "مساءً")
-										<br>
-										إلى @session.EndTime.ToString("h:mm") @(session.EndTime.ToString("tt") == "AM" ? "صباحاً" : "مساءً")
-									</td>
-									<td>@session.Location</td>
-									<td>@((int)(session.PriceRate * Model.Price)) جنيه</td>
-									<td>
-										@if (ViewBag.enrolledSession == null) {
-											<a asp-area="" asp-controller="Payment" asp-action="Index" class="btn btn-primary">إختيار</a>
-										} else {
-											if (session.Id == ViewBag.enrolledSession) {
-												<p class="text-success ">تم الإشتراك</p>
-											}
-										}
+                                            تفاصيل أكثر
+                                        </a>
+                                    </div>
 
 
 
-									</td>
-								</tr>
-							}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+                                    <h5>مؤهلاته</h5>
+                                    <div>
+                                        @Html.Raw(instructor.Qualifications)
+                                    </div>
+
+                                    <h5>سنوات الخبرة</h5>
+                                    <p>
+                                        @instructor.ExperienceYears
+                                    </p>
+                                </div>
+
+                                <a asp-controller="Home" asp-action="InstructorDetails" asp-route-id="@instructor.Id"
+                                   class="btn btn btn-primary">
+
+                                    تفاصيل أكثر
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p>لا يوجد مدربين</p>
+            }
+
+
+            <h2 class="pt-4">المواعيد</h2>
+
+            @if (Model.Sessions.Count > 0)
+            {
+                <div class="row mt-4" style="margin: 0 -20px">
+                    <div class="table-responsive px-3">
+                        <table class="table table-head-fixed table-hover" style="min-width: 38rem">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>المدرب</th>
+                                    <th>المدة</th>
+                                    <th>الوقت</th>
+                                    <th>المكان</th>
+                                    <th>السعر</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var session in Model.Sessions)
+                                {
+                                    <tr>
+                                        <td>@session.instructor.FullName</td>
+                                        <td>
+                                            من @session.StartDate.ToString("yyyy-MM-dd")
+                                            <br>
+                                            إلى @session.EndDate.ToString("yyyy-MM-dd")
+                                        </td>
+                                        <td>
+                                            من @session.startTime.ToString("h:mm") @(session.startTime.ToString("tt") == "AM" ? "صباحاً" : "مساءً")
+                                            <br>
+                                            إلى @session.EndTime.ToString("h:mm") @(session.EndTime.ToString("tt") == "AM" ? "صباحاً" : "مساءً")
+                                        </td>
+                                        <td>@session.Location</td>
+                                        <td>@((int)(session.PriceRate * Model.Price)) جنيه</td>
+                                        <td>
+                                            @if (ViewBag.enrolledSession == null)
+                                            {
+                                                <a asp-area="" asp-controller="Payment" asp-action="Index" asp-route-session-id="@session.Id" class="btn btn-primary">إختيار</a>
+                                            }
+                                            else
+                                            {
+                                                if (session.Id == ViewBag.enrolledSession)
+                                                {
+                                                    <button type="button" class="btn btn-primary" disabled>مشترك بالفعل</button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="button" class="btn btn-secondary" disabled>إختيار</button>
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <p>لا يوجد مواعيد</p>
+            }
+        </div>
+    </div>
 </div>

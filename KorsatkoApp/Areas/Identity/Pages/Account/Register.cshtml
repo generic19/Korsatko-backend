@@ -26,7 +26,6 @@
                                     تفاصيل الحساب
                                 </label>
 
-
                                 <div class="form-group col-12 mt-2">
                                     <label for="email" class="form-label">البريد الاكتروني</label>
                                     <input asp-for="Input.Email" type="email" name="email" id="email"
@@ -114,7 +113,8 @@
                                 <div class="form-group col-12 col-sm-6 mt-2">
                                     <label for="birthDate" class="form-label">تاريخ الميلاد</label>
                                     <input asp-for="Input.DateOfBirth" type="date" name="birthDate" id="birthDate"
-                                           class="form-control ltr-right">
+                                           class="form-control ltr-right"
+                                           placeholder="dd/MM/yyyy" value="2000-01-01">
 
                                     <div class="form-text text-danger">
                                         <span asp-validation-for="Input.DateOfBirth" id="error_birthDate"></span>
@@ -154,65 +154,6 @@
         </div>
     </div>
 </div>
-
-
-
-@* <div class="container">
-    <div class=" ">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>انشئ حساب جديد</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-
-
-            <div class="form-floating mb-3">
-                <input asp-for="Input.FullName" class="form-control" aria-required="true" />
-                <label class="mb-2" asp-for="Input.FullName"></label>
-                <span asp-validation-for="Input.FullName" class="text-danger"></span>
-            </div> 
-            <div class="form-floating mb-3">
-                <input asp-for="Input.UserName" class="form-control" aria-required="true" />
-                <label asp-for="Input.UserName"></label>
-                <span asp-validation-for="Input.UserName" class="text-danger"></span>
-            </div> 
-
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Gender" class="form-control" aria-required="true" />
-                <label asp-for="Input.Gender"></label>
-                <span asp-validation-for="Input.Gender" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="date" asp-for="Input.DateOfBirth" class="form-control" aria-required="true" />
-                <label asp-for="Input.DateOfBirth"></label>
-                <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input asp-for="Input.NationalId" class="form-control" aria-required="true" />
-                <label asp-for="Input.NationalId"></label>
-                <span asp-validation-for="Input.NationalId" class="text-danger"></span>
-            </div> 
-
-
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                <label asp-for="Input.Email"></label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true"  />
-                <label asp-for="Input.Password"></label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true"  />
-                <label asp-for="Input.ConfirmPassword"></label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary mb-3">سجل الان</button>
-        </form>
-    </div>
-</div> *@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
