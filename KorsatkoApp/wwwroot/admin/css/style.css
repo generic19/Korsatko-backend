@@ -157,9 +157,9 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td.dtr-control:before
     transition: all 0.2s ease-in-out;
 }
 
-.glow-on-hover:hover {
-    filter: brightness(1.1);
-}
+    .glow-on-hover:hover {
+        filter: brightness(1.1);
+    }
 
 .darken {
     filter: brightness(0.9);
@@ -189,7 +189,15 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td.dtr-control:before
 }
 
 td.scrollable {
-    max-height: 80px;
+    max-height: 100px;
     overflow: auto;
     display: block;
 }
+
+.force-font {
+    font-family: var(--font-family-sans-serif) !important;
+}
+
+    .force-font * {
+        font-family: var(--font-family-sans-serif) !important;
+    }

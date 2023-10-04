@@ -49,11 +49,11 @@
 				@Html.DisplayFor(model => model.NationalId)
 			</dd>
 		</dl>
-
-		<form asp-action="Delete" class="card-footer">
-			<input type="hidden" asp-for="Id" />
-			<input type="submit" value="حذف" class="btn btn-danger  px-3 arabic" />
-			<a asp-action="Index" class="btn btn-secondary px-3 arabic">رجوع</a>
-		</form>
 	</div>
+
+	<form asp-action="Delete" class="card-footer">
+		<input type="hidden" asp-for="Id" />
+		<input type="submit" value="حذف" class="btn btn-danger  px-3 arabic" />
+		<a asp-action="Index" class="btn btn-secondary px-3 arabic">رجوع</a>
+	</form>
 </div>

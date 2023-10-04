@@ -8,10 +8,10 @@
     <div class="card-body arabic">
         <dl class="row">
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.EnrollmentNumber)
+                الطالب
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.EnrollmentNumber)
+                @Html.DisplayFor(item => item.student.FullName)
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.PaymentStatus)
@@ -20,16 +20,10 @@
                 @Html.DisplayFor(model => model.PaymentStatus)
             </dd>
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.session)
+                تفاصيل الإشتراك
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.session.Id)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.student)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.student.Id)
+                @Model.session.course.Name - @Model.session.instructor.FullName - @Model.session.Location
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.AddedOn)

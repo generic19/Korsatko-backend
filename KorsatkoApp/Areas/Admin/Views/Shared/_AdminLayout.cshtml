@@ -15,7 +15,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&family=Cairo:wght@300;400;700&display=fallback">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="~/admin/plugins/fontawesome6/css/fontawesome.min.css">
     <link rel="stylesheet" href="~/admin/plugins/fontawesome6/css/solid.min.css">
@@ -185,14 +185,6 @@
                                         <p class="arabic">عرض الطلاب</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a asp-controller="Students" asp-action="Create"
-                                       class="nav-link @(controller == "Students" && action == "Create" ? "active" : "")">
-
-                                        <i class="nav-icon fas fa-plus"></i>
-                                        <p class="arabic">إضافة طالب</p>
-                                    </a>
-                                </li>
                             </ul>
                         </li>
 
@@ -267,7 +259,8 @@
         $("body").overlayScrollbars({
             className: "os-theme-light",
             scrollbars: {
-                autoHide: "leave",
+                autoHide: "move",
+                autoHideDelay: 250,
             },
         });
     </script>

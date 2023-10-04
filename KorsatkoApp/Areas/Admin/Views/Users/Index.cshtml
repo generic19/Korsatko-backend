@@ -17,28 +17,32 @@
             @Html.DisplayNameFor(model => model.Email)
         </th>
         <th>
-            Roles
+            نوع الحساب
         </th>
         <th></th>
     </tr>
 }
 @section TableRows {
-    @foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FullName)
+                @item.FullName
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                @item.Email
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Role)
+                @item.Role?.Replace("Admin", "مشرف")?.Replace("User", "طالب")
             </td>
             <td>
-                <form method="post" action="/Admin/Users/MakeAdmin">
-                    <input type="hidden" name="Email" value="@item.Email" />
-                    <input class="btn btn-primary" type="submit" value="Make Admin" />
-                </form>
+                @if (!item.Role.Contains("Admin"))
+                {
+                    <form method="post" action="/Admin/Users/MakeAdmin">
+                        <input type="hidden" name="Email" value="@item.Email" />
+                        <input class="btn btn-sm btn-primary" type="submit" value="ترقية لمشرف" />
+                    </form>
+                }
             </td>
         </tr>
     }

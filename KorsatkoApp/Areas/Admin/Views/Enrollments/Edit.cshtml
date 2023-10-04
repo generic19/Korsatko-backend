@@ -1,28 +1,30 @@
-﻿@model KorsatkoApp.Areas.Admin.Models.Enrollment
+﻿@model KorsatkoApp.Areas.Admin.ViewModels.EnrollmentEditViewModel
 
 @{
     Layout = "_HeaderAdminLayout";
 }
 
-        <form asp-action="Edit">
+<form method="post" asp-action="Edit" class="card">
+    <div class="card-body">
+        <div class="row">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EnrollmentNumber" class="control-label"></label>
-                <input asp-for="EnrollmentNumber" class="form-control" />
-                <span asp-validation-for="EnrollmentNumber" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="StudentId" />
-            <input type="hidden" asp-for="SessionId" />
-            <div class="form-group">
-                <label asp-for="PaymentStatus" class="control-label"></label>
-                <input asp-for="PaymentStatus" class="form-control" />
+
+            <div class="col-12 col-md-6 form-group">
+                <label asp-for="PaymentStatus" class="control-label arabic"></label>
+                <input asp-for="PaymentStatus" class="form-control arabic" />
                 <span asp-validation-for="PaymentStatus" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <div class="">
+            <input type="submit" value="تعديل" class="btn btn-primary px-3 arabic">
+            <a asp-action="Index" class="btn btn-outline-danger px-3 arabic">إلغاء</a>
+        </div>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

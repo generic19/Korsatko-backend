@@ -14,41 +14,56 @@
 
     <div class="fading-bg pb-5">
         <div class="container">
-            @foreach (var instructor in Model)
+            @if (Model.Any())
             {
-                <div class="p-3 bg-white border rounded-3 mb-3">
-                    <div class="d-flex flex-column flex-sm-row">
-                        <div class="d-flex">
-                            <img src="@(instructor.Gender == 'f' ? Href("~/img/female.jpg") : Href("~/img/male.jpg"))"
-                                 alt="Profile"
-                                 class="thumbnail rounded">
+                <div class="cards-container">
+                    @foreach (var instructor in Model)
+                    {
+                        <div class="card instructor-card">
+                            <div class="card-body">
+                                <div class="instructor-image">
+                                    <img src="@(instructor.Gender == 'f' ? Href("~/img/female.jpg") : Href("~/img/male.jpg"))"
+                                         alt="Profile" class="rounded">
+                                </div>
 
-                            <div class="d-flex align-items-center">
-                                <h4 class="d-sm-none ms-3 mb-0">@instructor.FullName</h4>
+                                <div class="instructor-info">
+                                    <div class="header">
+                                        <h3>
+                                            @instructor.FullName
+                                        </h3>
+
+                                        <a asp-controller="Home" asp-action="InstructorDetails" asp-route-id="@instructor.Id"
+                                           class="btn btn-outline-primary btn-sm">
+
+                                            تفاصيل أكثر
+                                        </a>
+                                    </div>
+
+                                    <h5>مؤهلاته@(instructor.Gender == 'f' ? "ا" : "")</h5>
+
+                                    <div>
+                                        @Html.Raw(instructor.Qualifications)
+                                    </div>
+
+                                    <h5>سنوات الخبرة</h5>
+                                    <div>
+                                        @instructor.ExperienceYears
+                                    </div>
+                                </div>
+
+                                <a asp-controller="Home" asp-action="InstructorDetails" asp-route-id="@instructor.Id"
+                                   class="btn btn btn-primary">
+
+                                    تفاصيل أكثر
+                                </a>
                             </div>
                         </div>
-
-                        <div class="ms-1 ms-sm-3 mt-3 mt-sm-0">
-                            <h4 class="mt-2 mb-3 d-none d-sm-block">
-                                @instructor.FullName
-                            </h4>
-
-                            <h5 class="mt-4">مؤهلاته</h5>
-                            @Html.Raw(instructor.Qualifications)
-
-                            <h5 class="mt-4">سنوات الخبرة</h5>
-                            <p>
-                                @instructor.ExperienceYears
-                            </p>
-
-                            <a asp-controller="Home" asp-action="InstructorDetails" asp-route-id="@instructor.Id"
-                               class="btn btn btn-primary">
-
-                                تفاصيل أكثر
-                            </a>
-                        </div>
-                    </div>
+                    }
                 </div>
+            }
+            else
+            {
+                <p>لا يوجد مدربين</p>
             }
         </div>
     </div>

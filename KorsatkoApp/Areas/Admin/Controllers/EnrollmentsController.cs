@@ -12,6 +12,7 @@ using NToastNotify;
 using Microsoft.AspNetCore.Authorization;
 using ClosedXML.Excel;
 using System.Data;
+using KorsatkoApp.Areas.Admin.ViewModels;
 
 namespace KorsatkoApp.Areas.Admin.Controllers {
 	[Authorize(Roles = "Admin")]
@@ -43,9 +44,13 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
 			}
 
 			var enrollment = await _context.Enrollments
-				.Include(e => e.session)
 				.Include(e => e.student)
-				.FirstOrDefaultAsync(m => m.EnrollmentNumber == id);
+                .Include(e => e.session)
+				.ThenInclude(e => e.course)
+				.Include(e => e.session)
+				.ThenInclude(e => e.instructor)
+                .FirstOrDefaultAsync(m => m.EnrollmentNumber == id);
+
 			if (enrollment == null) {
 				return NotFound();
 			}
@@ -115,56 +120,69 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
 			}
 
 			var enrollment = await _context.Enrollments.FirstOrDefaultAsync(e => e.EnrollmentNumber == id);
+			
 			if (enrollment == null) {
 				return NotFound();
 			}
-			ViewData["SessionId"] = new SelectList(_context.Sessions, "Id", "Id", enrollment.SessionId);
-			ViewData["StudentId"] = new SelectList(_context.Users, "Id", "Id", enrollment.StudentId);
-			return View(enrollment);
+
+			return View(new EnrollmentEditViewModel(enrollment.PaymentStatus));
 		}
 
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(string id, [Bind("EnrollmentNumber,StudentId,SessionId,PaymentStatus,AddedOn")] Enrollment enrollment) {
-			if (id != enrollment.EnrollmentNumber) {
+		public async Task<IActionResult> Edit(string id, EnrollmentEditViewModel model) {
+			var enrollment = _context.Enrollments.FirstOrDefault(e => e.EnrollmentNumber == id);
+
+			if (enrollment == null) {
 				return NotFound();
 			}
-
+			
 			if (ModelState.IsValid) {
 				try {
+					enrollment.PaymentStatus = model.PaymentStatus;
+
 					_context.Update(enrollment);
 					await _context.SaveChangesAsync();
-                    _toastNotification.AddSuccessToastMessage("تم تعديل الإشتراك بنجاح");
-                } catch (DbUpdateConcurrencyException) {
+                    
+					_toastNotification.AddSuccessToastMessage("تم تعديل الإشتراك بنجاح");
+                }
+				catch (DbUpdateConcurrencyException)
+				{
 					if (!EnrollmentExists(enrollment.EnrollmentNumber)) {
 						return NotFound();
 					} else {
 						throw;
 					}
 				}
+
 				return RedirectToAction(nameof(Index));
 			}
-			ViewData["SessionId"] = new SelectList(_context.Sessions, "Id", "Id", enrollment.SessionId);
-			ViewData["StudentId"] = new SelectList(_context.Users, "Id", "Id", enrollment.StudentId);
+
 			return View(enrollment);
 		}
 
 		public async Task<IActionResult> Delete(string id) {
-			if (id == null || _context.Enrollments == null) {
-				return NotFound();
-			}
+            if (id == null || _context.Enrollments == null)
+            {
+                return NotFound();
+            }
 
-			var enrollment = await _context.Enrollments
-				.Include(e => e.session)
-				.Include(e => e.student)
-				.FirstOrDefaultAsync(m => m.EnrollmentNumber == id);
-			if (enrollment == null) {
-				return NotFound();
-			}
-            
+            var enrollment = await _context.Enrollments
+                .Include(e => e.student)
+                .Include(e => e.session)
+                .ThenInclude(e => e.course)
+                .Include(e => e.session)
+                .ThenInclude(e => e.instructor)
+                .FirstOrDefaultAsync(m => m.EnrollmentNumber == id);
+
+            if (enrollment == null)
+            {
+                return NotFound();
+            }
+
             return View(enrollment);
-		}
+        }
 
 		// POST: Admin/Enrollments/Delete/5
 		[HttpPost, ActionName("Delete")]

@@ -12,7 +12,7 @@
 
 <div class="content-wrapper">
     <div class="fading-bg px-2 pt-5 pb-3">
-        <div class="container">
+        <div class="container force-font">
             <h1 class="mb-5">معلومات عن دورة @Model.Name</h1>
 
             <h2 class="mt-4">عن الدورة التدريبية</h2>
@@ -63,15 +63,15 @@
 
 
 
-                                    <h5>مؤهلاته</h5>
-                                    <div>
+                                    <h5>مؤهلاته@(instructor.Gender == 'f' ? "ا" : "")</h5>
+                                    <div class="force-font">
                                         @Html.Raw(instructor.Qualifications)
                                     </div>
 
                                     <h5>سنوات الخبرة</h5>
-                                    <p>
+                                    <div>
                                         @instructor.ExperienceYears
-                                    </p>
+                                    </div>
                                 </div>
 
                                 <a asp-controller="Home" asp-action="InstructorDetails" asp-route-id="@instructor.Id"
@@ -125,21 +125,7 @@
                                         <td>@session.Location</td>
                                         <td>@((int)(session.PriceRate * Model.Price)) جنيه</td>
                                         <td>
-                                            @if (ViewBag.enrolledSession == null)
-                                            {
-                                                <a asp-area="" asp-controller="Payment" asp-action="Index" asp-route-session-id="@session.Id" class="btn btn-primary">إختيار</a>
-                                            }
-                                            else
-                                            {
-                                                if (session.Id == ViewBag.enrolledSession)
-                                                {
-                                                    <button type="button" class="btn btn-primary" disabled>مشترك بالفعل</button>
-                                                }
-                                                else
-                                                {
-                                                    <button type="button" class="btn btn-secondary" disabled>إختيار</button>
-                                                }
-                                            }
+                                            <a asp-area="" asp-controller="Payment" asp-action="Index" asp-route-session-id="@session.Id" class="btn btn-primary">إختيار</a>
                                         </td>
                                     </tr>
                                 }

@@ -6,6 +6,7 @@
 
     string controllerPlural = controller switch
     {
+        "Home" => "لوحة القيادة",
         "Courses" => "الكورسات",
         "Enrollments" => "الإشتراكات",
         "Instructors" => "المدربين",
@@ -17,6 +18,7 @@
 
     string controllerSingular = controller switch
     {
+        "Home" => "لوحة القيادة",
         "Courses" => "كورس",
         "Enrollments" => "إشتراك",
         "Instructors" => "مدرب",
@@ -42,7 +44,7 @@
 <section class="container content-header mb-2">
     <div class="px-3 px-sm-2 px-lg-3">
         <div class="row mt-3 mb-1">
-            <h1 class="arabic">@actionSentence</h1>
+            <h1 class="arabic">@(controller == "Home" ? controllerSingular : actionSentence)</h1>
         </div>
 
         <div class="row">
@@ -58,27 +60,25 @@
                     }
                 </li>
 
-
-                <li class="breadcrumb-item">
-                    @if (controller == "Home")
-                    {
-                        @("لوحة القيادة")
-                    }
-                    else if (action == "Index")
-                    {
-                        @controllerPlural
-                    }
-                    else
-                    {
-                        <a asp-area="Admin" asp-controller="@controller" asp-action="Index">@controllerPlural</a>
-                    }
-                </li>
-
-                @if (action != "Index")
+                @if (controller != "Home" || action != "Index")
                 {
                     <li class="breadcrumb-item">
-                        @actionSentence
+                        @if (action == "Index")
+                        {
+                            @controllerPlural
+                        }
+                        else
+                        {
+                            <a asp-area="Admin" asp-controller="@controller" asp-action="Index">@controllerPlural</a>
+                        }
                     </li>
+
+                    @if (action != "Index")
+                    {
+                        <li class="breadcrumb-item">
+                            @actionSentence
+                        </li>
+                    }
                 }
             </ol>
         </div>

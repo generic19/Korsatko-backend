@@ -63,7 +63,7 @@
 											@if (item.session.course.Picture == "" || item.session.course.Picture == null) {
 												<img src="~/website/img/tracks/backend.svg" alt="@item.session.course.Name">
 											} else {
-												<img src="~/Uploads/@item.session.course.Picture" alt="@item.session.course.Name">
+												<img src="~/Uploads/@item.session.course.Picture" alt="@item.session.course.Name" onerror="this.onerror = null; this.src = '@Href("~/website/img/tracks/backend.svg")'">
 											}
 										</div>
 

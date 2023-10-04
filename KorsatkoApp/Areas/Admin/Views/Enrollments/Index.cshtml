@@ -34,7 +34,9 @@
 				<a asp-action="Details" asp-route-id="@item.EnrollmentNumber" class="btn icon-btn-sm btn-outline-primary m-1">
 					<i class="fas fa-info"></i>
 				</a>
-
+				<a asp-action="Edit" asp-route-id="@item.EnrollmentNumber" class="btn icon-btn-sm btn-outline-primary m-1">
+					<i class="fas fa-edit"></i>
+				</a>
 				<a asp-action="Delete" asp-route-id="@item.EnrollmentNumber" class="btn icon-btn-sm btn-outline-danger m-1">
 					<i class="fas fa-trash"></i>
 				</a>

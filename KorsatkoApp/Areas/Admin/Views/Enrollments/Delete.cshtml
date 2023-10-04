@@ -5,45 +5,40 @@
 }
 
 <div class="card arabic">
-<div class="card-body">
-    <dl class="row">
-        <dt class = "col-sm-2">
-            كود الاشتراك
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EnrollmentNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PaymentStatus)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PaymentStatus)
-        </dd>
-        <dt class = "col-sm-2">
-            كود الميعاد
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.session.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            كود الطالب
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.student.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AddedOn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AddedOn)
-        </dd>
-    </dl>
-    
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-2">
+                الطالب
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(item => item.student.FullName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PaymentStatus)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PaymentStatus)
+            </dd>
+            <dt class="col-sm-2">
+                تفاصيل الإشتراك
+            </dt>
+            <dd class="col-sm-10">
+                @Model.session.course.Name - @Model.session.instructor.FullName - @Model.session.Location
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AddedOn)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AddedOn)
+            </dd>
+        </dl>
+    </div>
+
     <form asp-action="Delete" class="card-footer">
         <input type="hidden" asp-for="StudentId" />
         <input type="hidden" asp-for="SessionId" />
-            <input type="submit" value="حذف" class="btn btn-danger px-3 arabic" />
-            <a asp-action="Index" class="btn btn-secondary px-3 arabic">رجوع</a>
-        </form>
-</div>
+        <input type="submit" value="حذف" class="btn btn-danger px-3 arabic" />
+        <a asp-action="Index" class="btn btn-secondary px-3 arabic">رجوع</a>
+    </form>
+
 </div>

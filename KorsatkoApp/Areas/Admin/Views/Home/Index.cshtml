@@ -1,179 +1,317 @@
 ﻿@model KorsatkoApp.Areas.Admin.ViewModels.SearchViewModel
 
 @{
-	ViewData["Title"] = "لوحة القيادة";
+    ViewData["Title"] = "لوحة القيادة";
+
+    Layout = "_HeaderAdminLayout";
 }
 
 <div class="justify-content-center container mt-2">
-	<div class="row arabic">
-		<div class="col">
+    <div class="row arabic">
+        <div class="col">
 
-			<a asp-action="ExportInExcel">
-				<div class="small-box bg-success">
-					<div class="inner">
-						<h3>Excel</h3>
-						<p>حفظ كل البيانات</p>
-					</div>
-					<div class="icon">
-						<i class="ion ion-pie-graph"></i>
-					</div>
+            <a asp-action="ExportInExcel">
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>Excel</h3>
+                        <p>حفظ كل البيانات</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
 
-				</div>
-			</a>
-		</div>
+                </div>
+            </a>
+        </div>
 
-		<div class="col">
-			<a asp-action="Reports">
-				<div class="small-box bg-warning">
-					<div class="inner">
-						<h3>Power Bi</h3>
-						<p>تقارير</p>
-					</div>
-					<div class="icon">
-						<i class="ion ion-pie-graph"></i>
-					</div>
+        <div class="col">
+            <a asp-action="Reports">
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>Power Bi</h3>
+                        <p>تقارير</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
 
-				</div>
-			</a>
-		</div>
-	</div>
+                </div>
+            </a>
+        </div>
+    </div>
 
-	<!--Status-->
-	<div class="row arabic">
-		<div class="col-lg-3 col-6">
-			<!-- small box -->
-			<div class="small-box bg-info">
-				<div class="inner">
-					<h3>@ViewBag.studentCount</h3>
+    <!--Status-->
+    <div class="row arabic">
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>@ViewBag.studentCount</h3>
 
-					<p>عدد الطلاب</p>
-				</div>
-				<div class="icon">
-					<i class="ion ion-bag"></i>
-				</div>
+                    <p>عدد الطلاب</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-		<!-- ./col -->
-		<div class="col-lg-3 col-6">
-			<!-- small box -->
-			<div class="small-box bg-success">
-				<div class="inner">
-					<h3>@ViewBag.instructorsCount </h3>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>@ViewBag.instructorsCount </h3>
 
-					<p>عدد المدربين</p>
-				</div>
-				<div class="icon">
-					<i class="ion ion-stats-bars"></i>
-				</div>
-			</div>
-		</div>
-		<!-- ./col -->
-		<div class="col-lg-3 col-6">
-			<!-- small box -->
-			<div class="small-box bg-warning">
-				<div class="inner">
-					<h3>@ViewBag.enrollmentCount</h3>
+                    <p>عدد المدربين</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>@ViewBag.enrollmentCount</h3>
 
-					<p>عدد الإشتراكات</p>
-				</div>
-				<div class="icon">
-					<i class="ion ion-person-add"></i>
-				</div>
-			</div>
-		</div>
-		<!-- ./col -->
-		<div class="col-lg-3 col-6">
-			<!-- small box -->
-			<div class="small-box bg-danger">
-				<div class="inner">
-					<h3>@ViewBag.courseCount</h3>
+                    <p>عدد الإشتراكات</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>@ViewBag.courseCount</h3>
 
-					<p>عدد الكورسات</p>
-				</div>
-				<div class="icon">
-					<i class="ion ion-pie-graph"></i>
-				</div>
-			</div>
-		</div>
-		<!-- ./col -->
-	</div>
-	<h4>تقرير مفصل عن الطلاب</h4>
-	<form asp-action="Index" class="card p-3">
-		<div class="form-group">
-			<label asp-for="student"></label>
-			<select asp-for="student" asp-items="@ViewBag.students">
-				<option value="">اختار</option>
+                    <p>عدد الكورسات</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
 
-			</select>
-		</div>
+    <h4 class="mt-4 mb-3 arabic">بحث متقدم عن الطلاب</h4>
 
-		<div class="form-group">
-			<div>
-				<label asp-for="gender"></label>
-				<select asp-for="gender">
-					<option value="">اختار</option>
+    <div class="card">
+        <form asp-action="Index" class="card-header">
+            <div class="row">
+                <div class="form-group col-12 col-sm-6">
+                    <label asp-for="student" class="form-label arabic">الطالب</label>
+                    <select asp-for="student" asp-items="@ViewBag.students" class="form-control arabic">
+                        <option value="">الكل</option>
+                    </select>
+                </div>
 
-					<option value='m'>ذكر</option>
-					<option value='f'>انثى</option>
-				</select>
-			</div>
-			<div>
-				<label>العمر</label>
-				<label asp-for="ageOlderThan"></label>
-				<input asp-for="ageOlderThan" />
-				<label asp-for="ageYoungerThan"></label>
-				<input asp-for="ageYoungerThan" />
-			</div>
-			<div>
-				<label asp-for="course"></label>
-				<select asp-for="course" asp-items="@ViewBag.courses">
-					<option value="">اختار</option>
-				</select>
-			</div>
-		</div>
+                <div class="form-group col-12 col-sm">
+                    <label asp-for="gender" class="form-label arabic"></label>
 
-		<div>
-			<button class="btn btn-info" type="submit">بحث</button>
-		</div>
-	</form>
-	<a class="btn btn-success">طباعة</a>
+                    <select asp-for="gender" class="form-control arabic">
+                        <option value="">الكل</option>
+                        <option value='m'>ذكر</option>
+                        <option value='f'>أنثى</option>
+                    </select>
+                </div>
 
-	<table class="table border">
-		<thead>
-			<tr>
-				<th>الاسم بالكامل</th>
-				<th>النوع</th>
-				<th>رقم الهاتف</th>
-				<th>الرقم القومي</th>
-				<th>تاريخ الميلاد</th>
-				<th>البريد الإلكتروني</th>
-				<th>تاريخ التسجيل</th>
-			</tr>
-		</thead>
-		<tbody>
+                <div class="form-group col-12">
+                    <label asp-for="course" class="from-label arabic"></label>
+                    <select asp-for="course" asp-items="@ViewBag.courses" class="form-control arabic">
+                        <option value="">الكل</option>
+                    </select>
+                </div>
 
-			@if (ViewBag.studentResult != null) {
-				foreach (var student in ViewBag.studentResult) {
-					<tr>
-						<td>@student.FullName</td>
-						@if (@student.Gender == 'f') {
-							<td>انثى</td>
-						} else {
-							<td>ذكر</td>
-						}
-						<td>@student.PhoneNumber</td>
-						<td>@student.NationalId</td>
-						<td>@student.DateOfBirth</td>
-						<td>@student.Email</td>
-						<td>@student.AddedOn</td>
-					</tr>
-				}
-			}
+                <fieldset class="form-group col-12 col-sm-6" id="ageRange">
+                    <label class="form-label arabic" for="ageRange">العمر</label>
 
-		</tbody>
-	</table>
+                    <div class="d-flex flex-row">
+                        <input asp-for="ageOlderThan" class="form-control arabic ltr-right" placeholder="من" />
+                        <input asp-for="ageYoungerThan" class="form-control arabic ltr-right ml-1" placeholder="إلى" />
+                    </div>
+                </fieldset>
+            </div>
 
+            <input type="submit" value="بحث" class="btn btn-primary mt-2 arabic" />
+        </form>
 
+        @if (ViewBag.studentResult != null)
+        {
+            <div class="card-body arabic">
+                <h4 class="mb-4 mt-2">نتائج البحث</h4>
+
+                <div class="row">
+                    <div class="col-6 mb-2 d-flex">
+                        <div class="d-inline px-1" id="tableButtons">
+                        </div>
+
+                        <div class="dropdown d-inline">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                                <span>حفظ</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-left" id="saveDropdown">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-6 pl-2 d-flex gx-2 mb-2 d-flex justify-content-end" id="tableButtonsEnd">
+                    </div>
+                </div>
+
+                <table id="datatable" class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>الاسم بالكامل</th>
+                            <th>النوع</th>
+                            <th>رقم الهاتف</th>
+                            <th>الرقم القومي</th>
+                            <th>تاريخ الميلاد</th>
+                            <th>البريد الإلكتروني</th>
+                            <th>تاريخ التسجيل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var student in ViewBag.studentResult)
+                        {
+                            <tr>
+                                <td>@student.FullName</td>
+                                @if (@student.Gender == 'f')
+                                {
+                                    <td>أنثى</td>
+                                }
+                                else
+                                {
+                                    <td>ذكر</td>
+                                }
+                                <td>@student.PhoneNumber</td>
+                                <td>@student.NationalId</td>
+                                <td>@student.DateOfBirth.ToString("yyyy-MM-dd")</td>
+                                <td>@student.Email</td>
+                                <td>@student.AddedOn</td>
+                            </tr>
+                        }
+                    </tbody>
+            </table>
+        </div>
+        }
+    </div>
 </div>
+
+
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+}
+
+@section Scripts {
+    <script src="~/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/admin/plugins/jszip/jszip.min.js"></script>
+    <script src="~/admin/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/admin/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+
+    <script>
+        $("document").ready(function () {
+            var t = $('#datatable')
+                .DataTable({
+                    language: {
+                        url: "@Href("~/admin/plugins/datatables/locale/ar.json")"
+                    },
+                    paging: true,
+                    lengthChange: false,
+                    searching: true,
+                    ordering: true,
+                    autoWidth: false,
+                    responsive: true,
+                    serverSide: false,
+                    initComplete: function () {
+                        const buttonsOptions = [
+                            {
+                                extend: "colvis",
+                                columns: "th",
+                                className: "",
+                            },
+                            {
+                                extend: "print",
+                                text: "طباعة",
+                                className: "",
+
+                                customize: function (_window) {
+                                    $(_window.document.head)
+                                        .append(`<link rel="stylesheet" href="@Href("~/admin/plugins/adminlte/css/adminlte-rtl.css")">`);
+
+                                    const body = $(_window.document.body)
+                                        .css("direction", "rtl")
+                                        .addClass("px-4");
+
+                                    let table = body.find("table").detach();
+                                    table.removeClass().addClass("table table-bordered");
+
+                                    table.find("th:last-child").remove();
+                                    table.find("td:last-child").remove();
+
+                                    table.find("th")
+                                        .css("color", "white")
+                                        .css("background-image", "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAA1JREFUGFdjMLFy+A8AAwIBrms8urkAAAAASUVORK5CYII=)")
+                                        .css("background-size", "stretch");
+
+                                    body.append(`<h1 class="pt-5 pb-3">بحث متقدم عن الطلاب</h1>`);
+                                    body.append(table);
+                                }
+                            },
+                            {
+                                extend: "csv",
+                                text: "ملف CSV",
+                                charset: "UTF-8",
+                                bom: true,
+                            },
+                            "searchPanes",
+                        ];
+
+
+                        const api = this.api();
+
+
+                        new $.fn.dataTable.Buttons(api, { buttons: buttonsOptions });
+                        const buttons = api.buttons().container().children();
+
+                        buttons.eq(2).removeClass().addClass("dropdown-item");
+
+                        buttons.eq(0).appendTo("#tableButtonsEnd");
+                        buttons.eq(1).removeClass("btn-secondary").addClass("btn-primary").appendTo("#tableButtons");
+                        buttons.slice(2, 4).appendTo("#saveDropdown");
+                        buttons.eq(4).appendTo("#tableButtons");
+                    },
+                });
+
+
+
+            $("#search").on("input", (e) => {
+                const q = e.target.value;
+                t.column(0).search(q).draw();
+            });
+        })
+    </script>
+}
+
