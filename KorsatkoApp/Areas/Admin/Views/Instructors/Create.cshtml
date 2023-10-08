@@ -54,7 +54,7 @@
 							<span class="arabic">النوع</span>
 						</label>
 						<span asp-validation-for="Gender" class="text-danger"></span>
-						@Html.DropDownListFor(m => m.Gender, ViewBag.GenderOptions as SelectList, "اختار النوع", new { @class = "form-control" })
+						@Html.DropDownListFor(m => m.Gender, ViewBag.GenderOptions as SelectList, "اختار النوع", new { @class = "form-control arabic" })
 					</div>
 
 					<div class="col-12 col-md-6 form-group">
@@ -78,11 +78,8 @@
 							<span class="arabic">المؤهلات</span>
 						</label>
 
-						<div class="input-group">
-							<span asp-validation-for="Qualifications" class="text-danger"></span>
-							<input asp-for="Qualifications" type="text" name="qualifications" class="form-control arabic">
-
-						</div>
+						<span asp-validation-for="Qualifications" class="text-danger"></span>
+						<input asp-for="Qualifications" type="text" name="qualifications" class="form-control arabic">
 					</div>
 
 					<div class="col-12 col-md-6 form-group">
@@ -105,12 +102,8 @@
 							<span class="arabic">سنوات الخبرة</span>
 						</label>
 
-						<div class="input-group">
-							<div class="input-group-prepend">
-							</div>
-							<span asp-validation-for="ExperienceYears" class="text-danger"></span>
-							<input asp-for="ExperienceYears" type="number" name="experienceyears" class="form-control arabic">
-						</div>
+						<span asp-validation-for="ExperienceYears" class="text-danger"></span>
+						<input asp-for="ExperienceYears" type="number" name="experienceyears" class="form-control arabic">
 					</div>
 				</div>
 			</div>

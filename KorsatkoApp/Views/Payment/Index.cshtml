@@ -70,7 +70,7 @@
 			</div>
 
 			<div class="card-footer">
-				<a class="btn btn-primary">تأكيد</a>
+				<a asp-area="" asp-controller="Payment" asp-action="Confirm" asp-route-courseid="@ViewBag.courseid" asp-route-sessionid="@ViewBag.sessionid" class="btn btn-primary">تأكيد</a>
 				<a class="btn btn-danger">إلغاء</a>
 			</div>
 		</form>

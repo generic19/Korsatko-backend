@@ -201,3 +201,8 @@ td.scrollable {
     .force-font * {
         font-family: var(--font-family-sans-serif) !important;
     }
+
+
+select.form-control.arabic {
+    padding: 0 12px;
+}

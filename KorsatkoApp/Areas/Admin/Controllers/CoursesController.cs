@@ -171,10 +171,16 @@ namespace KorsatkoApp.Areas.Admin.Controllers {
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteConfirmed(int id) {
 			var course = await _context.Courses.FindAsync(id);
-			var CurrentImage = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Uploads", course.Picture);
+			var CurrentImage="";
+			try {
+				CurrentImage = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Uploads", course.Picture);
+			}
+			catch(Exception ex) {
+
+			}
 			_context.Courses.Remove(course);
 			toastNotification.AddSuccessToastMessage("تم حذف  الكورس بنجاح");// Basmalla & Rewan : notification
-			if (await _context.SaveChangesAsync() > 0) {
+			if (await _context.SaveChangesAsync() > 0 && !string.IsNullOrEmpty(CurrentImage)) {
 				if (System.IO.File.Exists(CurrentImage)) {
 					System.IO.File.Delete(CurrentImage);
 				}

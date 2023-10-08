@@ -53,8 +53,10 @@ public class HomeController : Controller {
 	}
 	[HttpPost]
 	public async Task<IActionResult> Index(SearchViewModel searchModel) {
-		//ViewBags========
-		ViewBag.studentCount = _context.Users.ToList().Count;
+        searchModel.ageYoungerThan = searchModel.ageYoungerThan == 0 ? 150 : searchModel.ageYoungerThan;
+
+        //ViewBags========
+        ViewBag.studentCount = _context.Users.ToList().Count;
 		ViewBag.courseCount = _context.Courses.ToList().Count;
 		ViewBag.instructorsCount = _context.Instructors.ToList().Count;
 		ViewBag.enrollmentCount = _context.Enrollments.ToList().Count;
@@ -88,16 +90,15 @@ public class HomeController : Controller {
 			ViewBag.studentResult = result;
 			return View();
 		}
-		if (searchModel.course != null && searchModel.course != 0) {
+
+        if (searchModel.course != null && searchModel.course != 0) {
 			var enrollmentsInCourse = _context.Enrollments.Include(e => e.session).Include(e => e.student).Where(e => e.session.CourseId == searchModel.course);
 			if (searchModel.gender == 'm') {
 				enrollmentsInCourse = enrollmentsInCourse.Where(e => e.student.Gender == 'm');
 			} else if (searchModel.gender == 'f') {
 				enrollmentsInCourse = enrollmentsInCourse.Where(e => e.student.Gender == 'f');
 			}
-			if (searchModel.ageOlderThan != null && searchModel.ageOlderThan != 0) {
-				enrollmentsInCourse = enrollmentsInCourse.Where(e => testAge(e.student, searchModel.ageOlderThan, searchModel.ageYoungerThan) == true);
-			}
+
 			foreach (var enroll in enrollmentsInCourse) {
 				result.Add(new Student() {
 					FullName = enroll.student.FullName,
@@ -109,15 +110,18 @@ public class HomeController : Controller {
 					AddedOn = enroll.student.AddedOn
 				});
 			}
-			ViewBag.studentResult = result;
+
+			 result = result.Where(e => testAge(e, searchModel.ageOlderThan, searchModel.ageYoungerThan) == true).ToList();
+
+            ViewBag.studentResult = result;
 			return View();
 		}
+
 		var res = _context.Users.ToList();
 		if (searchModel.gender == 'm') res = res.Where(e => e.Gender == 'm').ToList();
 		if (searchModel.gender == 'f') res = res.Where(e => e.Gender == 'f').ToList();
-		if (searchModel.ageOlderThan != null && searchModel.ageYoungerThan != null && searchModel.ageOlderThan != 0 && searchModel.ageYoungerThan != 0) {
-			res = res.Where(e => testAge(e, searchModel.ageOlderThan, searchModel.ageYoungerThan) == true).ToList();
-		}
+		res = res.Where(e => testAge(e, searchModel.ageOlderThan, searchModel.ageYoungerThan) == true).ToList();
+
 		ViewBag.studentResult = res;
 		return View();
 	}
@@ -248,6 +252,7 @@ public class HomeController : Controller {
 
 
 		public bool testAge(Student student, int Older, int Younger) {
+        Younger = (Younger == 0) ? 150 : Younger; 
 		TimeSpan tsAge = DateTime.Now.Subtract(student.DateOfBirth);
 		var age = new DateTime(tsAge.Ticks).Year - 1;
 		if (age > Older && age <= Younger) {

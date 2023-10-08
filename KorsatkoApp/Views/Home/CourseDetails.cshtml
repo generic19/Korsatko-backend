@@ -108,6 +108,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                               
                                 @foreach (var session in Model.Sessions)
                                 {
                                     <tr>
@@ -125,7 +126,16 @@
                                         <td>@session.Location</td>
                                         <td>@((int)(session.PriceRate * Model.Price)) جنيه</td>
                                         <td>
-                                            <a asp-area="" asp-controller="Payment" asp-action="Index" asp-route-session-id="@session.Id" class="btn btn-primary">إختيار</a>
+                                            @if (ViewBag.enrolledSession == null) {
+                                                ViewBag.sessionid = @session.Id;
+                                                ViewBag.CourseId = @session.CourseId;
+
+                                                <a asp-area="" asp-controller="Payment" asp-action="Index" asp-route-courseid="@session.CourseId" asp-route-sessionid="@session.Id" class="btn btn-primary">إختيار</a>
+                                            } else {
+                                                if (session.Id == ViewBag.enrolledSession) {
+                                                    <p class="text-success ">تم الإشتراك</p>
+                                                }
+                                            }
                                         </td>
                                     </tr>
                                 }
